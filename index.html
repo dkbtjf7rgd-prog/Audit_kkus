@@ -205,7 +205,8 @@
             Итог: <span id="avg-score">—</span><br>
             <small id="verdict" style="color: #8E8E93; font-weight:500;">Нет оценок</small>
         </div>
-        <button class="btn-export" onclick="exportReport()">📤 Отчёт</button>
+        <button class="btn-export" onclick="addToExcel()">➕ Добавить</button>
+        <button class="btn-export" onclick="exportToExcel()" style="margin-left: 10px; background: var(--success);">📥 Скачать Excel</button>
     </div>
 
     <script>
@@ -298,6 +299,111 @@
             else if (avg >= 1.5) { verEl.innerText = "🟡 Хорошо"; verEl.style.color = "#FF9500"; }
             else if (avg >= 1.2) { verEl.innerText = " Удовл. (нужен план)"; verEl.style.color = "#FF9500"; }
             else { verEl.innerText = "🔴 Неудовл."; verEl.style.color = "#FF3B30"; }
+        }
+
+        // Хранилище для всех аудитов (для работы с несколькими складами)
+        let allAudits = [];
+
+        function addToExcel() {
+            const rc = document.getElementById('rc_name').value || "Не указан";
+            const date = document.getElementById('audit_date').value || new Date().toLocaleDateString('ru-RU');
+            const auditor = document.getElementById('auditor').value || "Не указан";
+            const avgScore = document.getElementById('avg-score').innerText;
+            const verdict = document.getElementById('verdict').innerText;
+            
+            // Проверяем, есть ли уже оценки
+            let hasScores = false;
+            for (let s of scores) {
+                if (s !== null && s !== 'Н/П') {
+                    hasScores = true;
+                    break;
+                }
+            }
+            
+            if (!hasScores) {
+                alert("⚠️ Сначала заполните хотя бы одну оценку!");
+                return;
+            }
+            
+            // Собираем данные аудита
+            const auditData = {
+                rc: rc,
+                date: date,
+                auditor: auditor,
+                avgScore: avgScore,
+                verdict: verdict,
+                items: []
+            };
+            
+            data.forEach((item, idx) => {
+                const score = scores[idx] !== null ? scores[idx] : "";
+                const comment = document.getElementById(`comment-${idx}`).value || "";
+                auditData.items.push({
+                    id: item.id,
+                    category: item.cat,
+                    requirement: item.req,
+                    flow: item.flow,
+                    score: score,
+                    comment: comment
+                });
+            });
+            
+            allAudits.push(auditData);
+            
+            alert(`✅ Аудит по РЦ "${rc}" добавлен! Всего аудитов: ${allAudits.length}\n\nТеперь вы можете:\n1. Заполнить новый аудит (очистите поля и введите данные другого склада)\n2. Нажать "Скачать Excel" для выгрузки всех аудитов`);
+            
+            // Очищаем форму для следующего аудита
+            document.getElementById('rc_name').value = "";
+            document.getElementById('auditor').value = "";
+            document.getElementById('audit_date').value = "";
+            scores.fill(null);
+            document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('textarea').forEach(t => t.value = "");
+            calculateResult();
+        }
+
+        function exportToExcel() {
+            if (allAudits.length === 0) {
+                alert("⚠️ Нет данных для экспорта! Добавьте хотя бы один аудит.");
+                return;
+            }
+            
+            // Создаём CSV контент с поддержкой кириллицы (UTF-8 с BOM)
+            let csv = '\uFEFF'; // BOM для корректного отображения кириллицы в Excel
+            
+            // Заголовки
+            csv += "РЦ;Дата;Аудитор;Средний балл;Вердикт;ID пункта;Категория;Требование;Поток;Оценка;Комментарий\n";
+            
+            // Данные по всем аудитам
+            allAudits.forEach((audit, auditIdx) => {
+                audit.items.forEach(item => {
+                    const row = [
+                        `"${audit.rc.replace(/"/g, '""')}"`,
+                        audit.date,
+                        `"${audit.auditor.replace(/"/g, '""')}"`,
+                        audit.avgScore,
+                        `"${audit.verdict.replace(/"/g, '""')}"`,
+                        item.id,
+                        `"${item.category.replace(/"/g, '""')}"`,
+                        `"${item.requirement.replace(/"/g, '""')}"`,
+                        item.flow,
+                        item.score,
+                        `"${item.comment.replace(/"/g, '""')}"`
+                    ].join(';');
+                    csv += row + '\n';
+                });
+            });
+            
+            // Создаём и скачиваем файл
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `Аудит_ККУС_${new Date().toISOString().slice(0,10)}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function exportReport() {
