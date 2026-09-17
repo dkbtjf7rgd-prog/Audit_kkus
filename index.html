@@ -21,20 +21,13 @@
             color: var(--black); 
             margin: 0; 
             padding: 16px; 
-            padding-bottom: 140px;
-            -webkit-font-smoothing: antialiased;
-        }
-        h1 { 
-            font-size: 24px; 
-            text-align: center; 
-            color: var(--orange); 
-            margin: 20px 0 24px; 
+
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         h1 small { 
-            font-size: 14px; 
+
             color: var(--gray); 
             font-weight: 500; 
             text-transform: none;
@@ -45,18 +38,13 @@
         .card { 
             background: #fff; 
             border-radius: 12px; 
-            padding: 18px; 
-            margin-bottom: 16px; 
+
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border: 1px solid var(--border-gray);
         }
         input, textarea { 
             width: 100%; 
-            padding: 14px; 
-            border: 2px solid var(--border-gray); 
-            border-radius: 8px; 
-            font-size: 16px; 
-            margin-bottom: 12px; 
+
             background: #fff;
             -webkit-appearance: none;
             font-family: inherit;
@@ -76,11 +64,7 @@
             padding: 8px;
         }
         h2 { 
-            font-size: 14px; 
-            color: var(--black); 
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin: 28px 0 14px; 
+
             padding-left: 4px;
             font-weight: 700;
             border-left: 4px solid var(--orange);
@@ -93,6 +77,7 @@
             overflow: hidden;
             box-shadow: 0 1px 4px rgba(0,0,0,0.06);
             border: 1px solid var(--border-gray);
+
         }
         .item-header { 
             padding: 16px; 
@@ -113,11 +98,7 @@
         .item-body.active { display: block; }
         .method-box { 
             background: var(--light-gray); 
-            padding: 14px; 
-            border-radius: 8px; 
-            font-size: 14px; 
-            color: #3C3C43; 
-            margin: 14px 0;
+
             line-height: 1.5;
             border-left: 3px solid var(--yellow);
         }
@@ -125,16 +106,12 @@
         .scores { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
-            gap: 8px; 
-            margin-bottom: 12px; 
-        }
-        .score-btn { 
-            padding: 16px 0; 
+
             text-align: center; 
             border: 2px solid var(--border-gray); 
             border-radius: 8px; 
             font-weight: 700; 
-            font-size: 18px; 
+            font-size: 16px; 
             cursor: pointer; 
             transition: all 0.15s;
             background: #fff;
@@ -170,29 +147,7 @@
             display: inline-block;
             margin-top: 4px;
             text-transform: uppercase;
-        }
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 16px;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: var(--light-gray);
-            padding: 12px 0;
-        }
-        .nav-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            background: var(--black);
-            color: #fff;
-            transition: opacity 0.2s;
-        }
+
         .nav-btn:active { opacity: 0.7; }
         .nav-btn.prev { background: var(--gray); }
         .nav-btn.next { background: var(--orange); }
@@ -202,12 +157,7 @@
             left: 0; 
             right: 0; 
             background: #fff; 
-            padding: 14px 16px; 
-            padding-bottom: calc(14px + env(safe-area-inset-bottom));
-            box-shadow: 0 -3px 16px rgba(0,0,0,0.12); 
-            display: flex; 
-            flex-direction: column;
-            gap: 10px;
+
             z-index: 100;
             border-top: 2px solid var(--orange);
         }
@@ -217,7 +167,7 @@
             align-items: center;
         }
         .result-text { 
-            font-size: 14px; 
+
             font-weight: 700; 
             line-height: 1.3;
             color: var(--black);
@@ -226,31 +176,18 @@
             display: block;
             font-weight: 500;
             color: var(--gray);
-            margin-top: 4px;
-        }
-        .audits-count {
-            font-size: 12px;
-            color: var(--orange);
-            font-weight: 600;
-            background: rgba(247, 148, 29, 0.1);
-            padding: 6px 10px;
+
             border-radius: 6px;
         }
         .btn-row {
             display: flex;
-            gap: 10px;
-        }
-        .btn-export { 
-            flex: 1;
-            padding: 14px; 
-            border: none; 
-            border-radius: 10px; 
-            font-size: 15px; 
+
             font-weight: 700; 
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             transition: opacity 0.2s;
+
         }
         .btn-export:active { opacity: 0.8; }
         .btn-add { 
@@ -264,13 +201,7 @@
         .btn-clear {
             background: var(--gray);
             color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
+
         }
         .no-js-warning {
             background: #E53935;
@@ -286,9 +217,7 @@
             background: rgba(247, 148, 29, 0.08);
             border: 1px dashed var(--orange);
             border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 16px;
-            font-size: 13px;
+
             color: var(--black);
         }
         .audit-info strong { color: var(--orange); }
@@ -378,7 +307,7 @@
                             <div class="score-btn s0" onclick="setScore(${index}, 0, this)">0</div>
                             <div class="score-btn sna" onclick="setScore(${index}, 'Н/П', this)">Н/П</div>
                         </div>
-                        <textarea rows="2" placeholder="Комментарии / Наблюдения..." id="comment-${index}"></textarea>
+                        <textarea rows="2" placeholder="Комментарии..." id="comment-${index}" style="margin-top: 10px;"></textarea>
                     </div>
                 </div>
             `;
@@ -428,7 +357,7 @@
         function scrollToItem(index) {
             const card = document.getElementById(`card-${index}`);
             if (card) {
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
                 // Раскрываем текущий пункт
                 const method = document.getElementById(`method-${index}`);
                 if (!method.classList.contains('active')) {
