@@ -197,7 +197,7 @@
             padding: 12px;
             border-radius: 6px;
             border-left: 3px solid var(--lm-orange);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             line-height: 1.5;
         }
 
@@ -205,7 +205,7 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
-            margin-top: auto;
+            margin-bottom: 15px;
         }
 
         .score-btn {
@@ -225,6 +225,22 @@
             border-color: var(--lm-orange);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(245, 134, 52, 0.4);
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--lm-orange);
         }
 
         .nav-buttons {
@@ -304,8 +320,11 @@
                 <button class="score-btn" onclick="selectScore(2)">2</button>
                 <button class="score-btn" onclick="selectScore(1)">1</button>
                 <button class="score-btn" onclick="selectScore(0)">0</button>
-                <button class="score-btn" onclick="selectScore('np')">н/п</button>
+                <button class="score-btn" onclick="selectScore('н/п')">н/п</button>
             </div>
+            
+            <label for="comment-input" style="display: block; margin-bottom: 8px; color: var(--lm-black); font-weight: 600; font-size: 14px;">Комментарий</label>
+            <textarea class="comment-input" id="comment-input" placeholder="Добавьте комментарий к оценке (необязательно)"></textarea>
         </div>
 
         <div class="nav-buttons">
@@ -419,6 +438,7 @@
 
         let currentQuestionIndex = 0;
         let currentAnswers = {};
+        let currentComments = {};
         let auditInfo = {};
 
         // Инициализация при загрузке
@@ -440,6 +460,7 @@
 
             auditInfo = { rc, date, auditor, timestamp: new Date().toISOString() };
             currentAnswers = {};
+            currentComments = {};
             currentQuestionIndex = 0;
 
             document.getElementById('start-screen').style.display = 'none';
@@ -473,6 +494,10 @@
                 });
             }
 
+            // Восстановление комментария
+            const commentInput = document.getElementById('comment-input');
+            commentInput.value = currentComments[currentQuestionIndex] || '';
+
             // Управление видимостью кнопок навигации
             document.getElementById('btn-prev').style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
             
@@ -496,6 +521,19 @@
                 }
             });
         }
+
+        function saveComment() {
+            const commentInput = document.getElementById('comment-input');
+            currentComments[currentQuestionIndex] = commentInput.value.trim();
+        }
+
+        // Добавляем обработчик для автосохранения комментария
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentInput = document.getElementById('comment-input');
+            if (commentInput) {
+                commentInput.addEventListener('input', saveComment);
+            }
+        });
 
         function nextQuestion() {
             // Проверка наличия ответа (опционально, можно убрать если разрешено пропускать)
@@ -530,10 +568,14 @@
         }
 
         function saveAudit() {
+            // Сохраняем текущий комментарий перед сохранением
+            saveComment();
+            
             // Сбор всех данных
             const fullAuditData = {
                 ...auditInfo,
                 answers: currentAnswers,
+                comments: currentComments,
                 questionsSnapshot: questions // Сохраняем snapshot вопросов на момент аудита
             };
 
@@ -570,17 +612,21 @@
         }
 
         function downloadCurrentExcel() {
+            // Сохраняем текущий комментарий перед экспортом
+            saveComment();
+            
             const data = [
                 ["РЦ", auditInfo.rc],
                 ["Дата", auditInfo.date],
                 ["Аудитор", auditInfo.auditor],
                 [],
-                ["Блок", "Поток", "Требование", "Оценка"]
+                ["Блок", "Поток", "Требование", "Оценка", "Комментарий"]
             ];
 
             questions.forEach((q, index) => {
                 const ans = currentAnswers[index] !== undefined ? currentAnswers[index] : "Нет ответа";
-                data.push([q.block, q.flow, q.requirement, ans]);
+                const comment = currentComments[index] || "";
+                data.push([q.block, q.flow, q.requirement, ans, comment]);
             });
 
             exportToCSV(data, `Аудит_${auditInfo.rc}_${auditInfo.date}.csv`);
@@ -603,18 +649,19 @@
                 csvContent += `Дата аудита;${audit.date}\n`;
                 csvContent += `Аудитор;${audit.auditor}\n`;
                 csvContent += `Время сохранения;${audit.timestamp}\n`;
-                csvContent += `\nБлок;Поток;Требование;Оценка\n`;
+                csvContent += `\nБлок;Поток;Требование;Оценка;Комментарий\n`;
 
                 // Используем snapshot вопросов если есть, иначе текущие (на случай изменений структуры)
                 const qList = audit.questionsSnapshot || questions;
                 
                 qList.forEach(q => {
                     const ans = audit.answers[questions.indexOf(q)] !== undefined ? audit.answers[questions.indexOf(q)] : "Нет ответа";
+                    const comment = (audit.comments && audit.comments[questions.indexOf(q)]) || "";
                     // Экранирование точки с запятой в тексте
                     const safeBlock = q.block.replace(/;/g, ",");
                     const safeFlow = q.flow.replace(/;/g, ",");
                     const safeReq = q.requirement.replace(/;/g, ",");
-                    csvContent += `${safeBlock};${safeFlow};${safeReq};${ans}\n`;
+                    csvContent += `${safeBlock};${safeFlow};${safeReq};${ans};${comment}\n`;
                 });
                 csvContent += `\n\n`;
             });
