@@ -654,9 +654,10 @@
                 // Используем snapshot вопросов если есть, иначе текущие (на случай изменений структуры)
                 const qList = audit.questionsSnapshot || questions;
                 
-                qList.forEach(q => {
-                    const ans = audit.answers[questions.indexOf(q)] !== undefined ? audit.answers[questions.indexOf(q)] : "Нет ответа";
-                    const comment = (audit.comments && audit.comments[questions.indexOf(q)]) || "";
+                qList.forEach((q, qIndex) => {
+                    // Исправлено: используем индекс из цикла, а не indexOf
+                    const ans = audit.answers[qIndex] !== undefined ? audit.answers[qIndex] : "Нет ответа";
+                    const comment = (audit.comments && audit.comments[qIndex]) || "";
                     // Экранирование точки с запятой в тексте
                     const safeBlock = q.block.replace(/;/g, ",");
                     const safeFlow = q.flow.replace(/;/g, ",");
@@ -685,7 +686,9 @@
         }
 
         function downloadFile(content, fileName, contentType) {
-            const blob = new Blob([content], { type: contentType });
+            // Добавляем BOM (Byte Order Mark) для корректного отображения кириллицы в Excel
+            const BOM = '\uFEFF';
+            const blob = new Blob([BOM, content], { type: contentType });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.setAttribute("href", url);
