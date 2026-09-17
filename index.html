@@ -21,20 +21,13 @@
             color: var(--black); 
             margin: 0; 
             padding: 16px; 
-            padding-bottom: 100px;
-            -webkit-font-smoothing: antialiased;
-        }
-        h1 { 
-            font-size: 20px; 
-            text-align: center; 
-            color: var(--orange); 
-            margin: 16px 0 18px; 
+
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         h1 small { 
-            font-size: 13px; 
+
             color: var(--gray); 
             font-weight: 500; 
             text-transform: none;
@@ -45,18 +38,13 @@
         .card { 
             background: #fff; 
             border-radius: 12px; 
-            padding: 14px; 
-            margin-bottom: 12px; 
+
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border: 1px solid var(--border-gray);
         }
         input, textarea { 
             width: 100%; 
-            padding: 12px; 
-            border: 2px solid var(--border-gray); 
-            border-radius: 8px; 
-            font-size: 15px; 
-            margin-bottom: 10px; 
+
             background: #fff;
             -webkit-appearance: none;
             font-family: inherit;
@@ -76,11 +64,7 @@
             padding: 8px;
         }
         h2 { 
-            font-size: 13px; 
-            color: var(--black); 
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin: 20px 0 10px; 
+
             padding-left: 4px;
             font-weight: 700;
             border-left: 4px solid var(--orange);
@@ -93,10 +77,10 @@
             overflow: hidden;
             box-shadow: 0 1px 4px rgba(0,0,0,0.06);
             border: 1px solid var(--border-gray);
-            scroll-margin-top: 80px;
+
         }
         .item-header { 
-            padding: 14px; 
+            padding: 16px; 
             font-size: 15px; 
             font-weight: 600;
             line-height: 1.4;
@@ -107,18 +91,14 @@
         }
         .item-header .text { flex: 1; }
         .item-body { 
-            padding: 0 14px 14px; 
+            padding: 0 16px 16px; 
             display: none; 
             border-top: 1px solid var(--border-gray);
         }
         .item-body.active { display: block; }
         .method-box { 
             background: var(--light-gray); 
-            padding: 10px; 
-            border-radius: 8px; 
-            font-size: 13px; 
-            color: #3C3C43; 
-            margin: 10px 0;
+
             line-height: 1.5;
             border-left: 3px solid var(--yellow);
         }
@@ -126,11 +106,7 @@
         .scores { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
-            gap: 6px; 
-            margin-bottom: 10px; 
-        }
-        .score-btn { 
-            padding: 12px 0; 
+
             text-align: center; 
             border: 2px solid var(--border-gray); 
             border-radius: 8px; 
@@ -171,29 +147,7 @@
             display: inline-block;
             margin-top: 4px;
             text-transform: uppercase;
-        }
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: var(--light-gray);
-            padding: 10px 0;
-        }
-        .nav-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            background: var(--black);
-            color: #fff;
-            transition: opacity 0.2s;
-        }
+
         .nav-btn:active { opacity: 0.7; }
         .nav-btn.prev { background: var(--gray); }
         .nav-btn.next { background: var(--orange); }
@@ -203,12 +157,7 @@
             left: 0; 
             right: 0; 
             background: #fff; 
-            padding: 10px 16px; 
-            padding-bottom: calc(10px + env(safe-area-inset-bottom));
-            box-shadow: 0 -3px 16px rgba(0,0,0,0.12); 
-            display: flex; 
-            flex-direction: column;
-            gap: 8px;
+
             z-index: 100;
             border-top: 2px solid var(--orange);
         }
@@ -218,7 +167,7 @@
             align-items: center;
         }
         .result-text { 
-            font-size: 13px; 
+
             font-weight: 700; 
             line-height: 1.3;
             color: var(--black);
@@ -227,32 +176,18 @@
             display: block;
             font-weight: 500;
             color: var(--gray);
-            margin-top: 3px;
-        }
-        .audits-count {
-            font-size: 11px;
-            color: var(--orange);
-            font-weight: 600;
-            background: rgba(247, 148, 29, 0.1);
-            padding: 4px 8px;
+
             border-radius: 6px;
         }
         .btn-row {
             display: flex;
-            gap: 8px;
-        }
-        .btn-export { 
-            flex: 1;
-            padding: 10px; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 13px; 
+
             font-weight: 700; 
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             transition: opacity 0.2s;
-            white-space: nowrap;
+
         }
         .btn-export:active { opacity: 0.8; }
         .btn-add { 
@@ -266,13 +201,7 @@
         .btn-clear {
             background: var(--gray);
             color: #fff;
-            padding: 8px;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 4px;
+
         }
         .no-js-warning {
             background: #E53935;
@@ -288,9 +217,7 @@
             background: rgba(247, 148, 29, 0.08);
             border: 1px dashed var(--orange);
             border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 12px;
-            font-size: 12px;
+
             color: var(--black);
         }
         .audit-info strong { color: var(--orange); }
@@ -430,7 +357,7 @@
         function scrollToItem(index) {
             const card = document.getElementById(`card-${index}`);
             if (card) {
-                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
                 // Раскрываем текущий пункт
                 const method = document.getElementById(`method-${index}`);
                 if (!method.classList.contains('active')) {
