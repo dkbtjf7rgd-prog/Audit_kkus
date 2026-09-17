@@ -670,7 +670,7 @@
         }
 
         function exportToCSV(dataArray, filename) {
-            let csvContent = "data:text/csv;charset=utf-8,";
+            let csvContent = "";
             dataArray.forEach(row => {
                 // Экранирование спецсимволов для CSV
                 const cleanRow = row.map(item => {
@@ -685,13 +685,15 @@
         }
 
         function downloadFile(content, fileName, contentType) {
-            const encodedUri = encodeURI(content);
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
+            link.setAttribute("href", url);
             link.setAttribute("download", fileName);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         }
     </script>
 </body>
