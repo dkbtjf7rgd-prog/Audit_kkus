@@ -7,50 +7,68 @@
     <title>Аудит ККУС</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        :root { --primary: #007AFF; --success: #34C759; --warning: #FF9500; --danger: #FF3B30; --bg: #F2F2F7; }
+        :root { 
+            --orange: #F7941D;
+            --yellow: #FFD200;
+            --black: #000000;
+            --gray: #8C8C8C;
+            --light-gray: #F5F5F5;
+            --border-gray: #E0E0E0;
+        }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; 
-            background: var(--bg); 
-            color: #000; 
+            background: var(--light-gray); 
+            color: var(--black); 
             margin: 0; 
-            padding: 12px; 
-            padding-bottom: 110px;
+            padding: 16px; 
+            padding-bottom: 140px;
             -webkit-font-smoothing: antialiased;
         }
         h1 { 
-            font-size: 22px; 
+            font-size: 24px; 
             text-align: center; 
-            color: var(--primary); 
-            margin: 15px 0 20px; 
-            font-weight: 700;
+            color: var(--orange); 
+            margin: 20px 0 24px; 
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        h1 small { 
+            font-size: 14px; 
+            color: var(--gray); 
+            font-weight: 500; 
+            text-transform: none;
+            letter-spacing: 0;
+            display: block;
+            margin-top: 6px;
         }
         .card { 
             background: #fff; 
-            border-radius: 14px; 
-            padding: 16px; 
-            margin-bottom: 14px; 
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06); 
+            border-radius: 12px; 
+            padding: 18px; 
+            margin-bottom: 16px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-gray);
         }
         input, textarea { 
             width: 100%; 
             padding: 14px; 
-            border: 1px solid #E5E5EA; 
-            border-radius: 10px; 
-            font-size: 17px; 
-            margin-bottom: 10px; 
+            border: 2px solid var(--border-gray); 
+            border-radius: 8px; 
+            font-size: 16px; 
+            margin-bottom: 12px; 
             background: #fff;
             -webkit-appearance: none;
             font-family: inherit;
+            transition: border-color 0.2s;
         }
         input:focus, textarea:focus { 
             outline: none; 
-            border-color: var(--primary); 
+            border-color: var(--orange); 
         }
-        /* Поле даты для iOS */
         input[type="date"] {
             background: #fff;
-            color: #000;
-            position: relative;
+            color: var(--black);
         }
         input[type="date"]::-webkit-calendar-picker-indicator {
             opacity: 1;
@@ -58,59 +76,63 @@
             padding: 8px;
         }
         h2 { 
-            font-size: 15px; 
-            color: var(--primary); 
+            font-size: 14px; 
+            color: var(--black); 
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 22px 0 10px; 
+            letter-spacing: 1.5px;
+            margin: 28px 0 14px; 
             padding-left: 4px;
             font-weight: 700;
+            border-left: 4px solid var(--orange);
+            padding-left: 12px;
         }
         .item-card { 
             background: #fff;
-            border-radius: 12px; 
-            margin-bottom: 10px; 
+            border-radius: 10px; 
+            margin-bottom: 12px; 
             overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-gray);
         }
         .item-header { 
-            padding: 14px; 
+            padding: 16px; 
             font-size: 15px; 
             font-weight: 600;
-            line-height: 1.3;
+            line-height: 1.4;
             display: flex; 
             justify-content: space-between; 
             align-items: flex-start;
-            gap: 8px;
+            gap: 10px;
         }
         .item-header .text { flex: 1; }
         .item-body { 
-            padding: 0 14px 14px; 
+            padding: 0 16px 16px; 
             display: none; 
-            border-top: 1px solid #F2F2F7;
+            border-top: 1px solid var(--border-gray);
         }
         .item-body.active { display: block; }
         .method-box { 
-            background: #F2F2F7; 
-            padding: 12px; 
-            border-radius: 10px; 
+            background: var(--light-gray); 
+            padding: 14px; 
+            border-radius: 8px; 
             font-size: 14px; 
             color: #3C3C43; 
-            margin: 12px 0;
-            line-height: 1.4;
+            margin: 14px 0;
+            line-height: 1.5;
+            border-left: 3px solid var(--yellow);
         }
-        .method-box b { color: var(--primary); }
+        .method-box b { color: var(--orange); }
         .scores { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
             gap: 8px; 
-            margin-bottom: 10px; 
+            margin-bottom: 12px; 
         }
         .score-btn { 
-            padding: 14px 0; 
+            padding: 16px 0; 
             text-align: center; 
-            border: 2px solid #E5E5EA; 
-            border-radius: 10px; 
+            border: 2px solid var(--border-gray); 
+            border-radius: 8px; 
             font-weight: 700; 
             font-size: 18px; 
             cursor: pointer; 
@@ -118,34 +140,62 @@
             background: #fff;
             user-select: none;
         }
-        .score-btn:active { transform: scale(0.95); }
-        .score-btn.s2.active { background: var(--success); color: #fff; border-color: var(--success); }
-        .score-btn.s1.active { background: var(--warning); color: #fff; border-color: var(--warning); }
-        .score-btn.s0.active { background: var(--danger); color: #fff; border-color: var(--danger); }
-        .score-btn.sna.active { background: #8E8E93; color: #fff; border-color: #8E8E93; }
+        .score-btn:active { transform: scale(0.94); }
+        .score-btn.s2.active { background: #4CAF50; color: #fff; border-color: #4CAF50; }
+        .score-btn.s1.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+        .score-btn.s0.active { background: #E53935; color: #fff; border-color: #E53935; }
+        .score-btn.sna.active { background: var(--gray); color: #fff; border-color: var(--gray); }
         .toggle-btn { 
-            background: var(--primary); 
+            background: var(--orange); 
             color: #fff; 
             border: none; 
-            border-radius: 8px;
-            font-size: 13px; 
+            border-radius: 6px;
+            font-size: 12px; 
             cursor: pointer; 
-            padding: 6px 10px;
+            padding: 8px 12px;
             font-weight: 600;
             white-space: nowrap;
             flex-shrink: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .badge { 
-            font-size: 11px; 
-            background: var(--primary); 
-            color: #fff; 
-            padding: 3px 8px; 
-            border-radius: 10px; 
-            margin-left: 6px;
-            font-weight: 600;
+            font-size: 10px; 
+            background: var(--yellow); 
+            color: var(--black); 
+            padding: 4px 8px; 
+            border-radius: 6px; 
+            margin-left: 8px;
+            font-weight: 700;
             display: inline-block;
             margin-top: 4px;
+            text-transform: uppercase;
         }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--light-gray);
+            padding: 12px 0;
+        }
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            background: var(--black);
+            color: #fff;
+            transition: opacity 0.2s;
+        }
+        .nav-btn:active { opacity: 0.7; }
+        .nav-btn.prev { background: var(--gray); }
+        .nav-btn.next { background: var(--orange); }
         .footer-bar { 
             position: fixed; 
             bottom: 0; 
@@ -154,34 +204,94 @@
             background: #fff; 
             padding: 14px 16px; 
             padding-bottom: calc(14px + env(safe-area-inset-bottom));
-            box-shadow: 0 -2px 12px rgba(0,0,0,0.08); 
+            box-shadow: 0 -3px 16px rgba(0,0,0,0.12); 
             display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            z-index: 100; 
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+            border-top: 2px solid var(--orange);
         }
-        .result-text { font-size: 15px; font-weight: 700; line-height: 1.3; }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .result-text { 
+            font-size: 14px; 
+            font-weight: 700; 
+            line-height: 1.3;
+            color: var(--black);
+        }
+        .result-text small {
+            display: block;
+            font-weight: 500;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+        .audits-count {
+            font-size: 12px;
+            color: var(--orange);
+            font-weight: 600;
+            background: rgba(247, 148, 29, 0.1);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        .btn-row {
+            display: flex;
+            gap: 10px;
+        }
         .btn-export { 
-            background: var(--primary); 
-            color: #fff; 
+            flex: 1;
+            padding: 14px; 
             border: none; 
-            padding: 14px 22px; 
-            border-radius: 12px; 
-            font-size: 16px; 
+            border-radius: 10px; 
+            font-size: 15px; 
             font-weight: 700; 
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s;
         }
         .btn-export:active { opacity: 0.8; }
+        .btn-add { 
+            background: var(--orange); 
+            color: #fff;
+        }
+        .btn-download { 
+            background: var(--black); 
+            color: #fff;
+        }
+        .btn-clear {
+            background: var(--gray);
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
         .no-js-warning {
-            background: #FF3B30;
+            background: #E53935;
             color: #fff;
             padding: 16px;
-            border-radius: 12px;
-            margin: 12px 0;
+            border-radius: 10px;
+            margin: 16px 0;
             font-size: 15px;
-            line-height: 1.4;
+            line-height: 1.5;
             display: none;
         }
+        .audit-info {
+            background: rgba(247, 148, 29, 0.08);
+            border: 1px dashed var(--orange);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: var(--black);
+        }
+        .audit-info strong { color: var(--orange); }
     </style>
 </head>
 <body>
@@ -190,7 +300,12 @@
         ⚠️ JavaScript отключён или заблокирован. Откройте файл через <b>Safari</b> (не через встроенный просмотрщик), либо загрузите на любой хостинг (например, netlify.com/drop).
     </div>
 
-    <h1>📋 Аудит ККУС<br><small style="font-size:15px;color:#666;font-weight:500;">Приёмка и Размещение</small></h1>
+    <h1>📋 Аудит ККУС<br><small>Приёмка и Размещение</small></h1>
+    
+    <div class="audit-info">
+        <strong>💡 Как работать:</strong> Заполните аудит по одному складу → нажмите «Добавить» → данные сохранятся. 
+        Можно закрыть приложение и вернуться позже. Когда все аудиты готовы → нажмите «Скачать Excel».
+    </div>
     
     <div class="card">
         <input type="text" id="rc_name" placeholder="Название РЦ / Склада">
@@ -198,15 +313,26 @@
         <input type="text" id="auditor" placeholder="ФИО Аудитора">
     </div>
 
+    <div class="nav-buttons">
+        <button class="nav-btn prev" onclick="prevItem()">← Пред.</button>
+        <button class="nav-btn next" onclick="nextItem()">След. →</button>
+    </div>
+
     <div id="checklist-container"></div>
 
     <div class="footer-bar">
-        <div class="result-text">
-            Итог: <span id="avg-score">—</span><br>
-            <small id="verdict" style="color: #8E8E93; font-weight:500;">Нет оценок</small>
+        <div class="result-row">
+            <div class="result-text">
+                Итог: <span id="avg-score">—</span>
+                <small id="verdict">Нет оценок</small>
+            </div>
+            <div class="audits-count" id="audits-count">Аудитов: 0</div>
         </div>
-        <button class="btn-export" onclick="addToExcel()">➕ Добавить</button>
-        <button class="btn-export" onclick="exportToExcel()" style="margin-left: 10px; background: var(--success);">📥 Скачать Excel</button>
+        <div class="btn-row">
+            <button class="btn-export btn-add" onclick="addToExcel()">➕ Добавить</button>
+            <button class="btn-export btn-download" onclick="exportToExcel()">📥 Скачать Excel</button>
+        </div>
+        <button class="btn-clear" onclick="clearCurrentAudit()">🗑 Очистить текущий</button>
     </div>
 
     <script>
@@ -259,10 +385,63 @@
         });
 
         const scores = new Array(data.length).fill(null);
+        let currentItemIndex = 0;
+
+        // Загрузка сохранённых аудитов из localStorage при старте
+        function loadAuditsFromStorage() {
+            const saved = localStorage.getItem('kkuS_audits');
+            if (saved) {
+                try {
+                    allAudits = JSON.parse(saved);
+                    updateAuditsCount();
+                } catch(e) {
+                    console.error('Ошибка загрузки сохранённых аудитов:', e);
+                }
+            }
+        }
+
+        // Сохранение аудитов в localStorage
+        function saveAuditsToStorage() {
+            localStorage.setItem('kkuS_audits', JSON.stringify(allAudits));
+            updateAuditsCount();
+        }
+
+        function updateAuditsCount() {
+            document.getElementById('audits-count').innerText = `Аудитов: ${allAudits.length}`;
+        }
+
+        // Навигация между пунктами
+        function prevItem() {
+            if (currentItemIndex > 0) {
+                currentItemIndex--;
+                scrollToItem(currentItemIndex);
+            }
+        }
+
+        function nextItem() {
+            if (currentItemIndex < data.length - 1) {
+                currentItemIndex++;
+                scrollToItem(currentItemIndex);
+            }
+        }
+
+        function scrollToItem(index) {
+            const card = document.getElementById(`card-${index}`);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Раскрываем текущий пункт
+                const method = document.getElementById(`method-${index}`);
+                if (!method.classList.contains('active')) {
+                    method.classList.add('active');
+                }
+            }
+        }
 
         function toggleMethod(idx) {
             const el = document.getElementById(`method-${idx}`);
             el.classList.toggle('active');
+            // Обновляем текущий индекс при ручном раскрытии
+            currentItemIndex = idx;
         }
 
         function setScore(idx, val, btn) {
@@ -271,6 +450,12 @@
             card.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             calculateResult();
+            // Переход к следующему пункту после оценки
+            setTimeout(() => {
+                if (idx < data.length - 1) {
+                    nextItem();
+                }
+            }, 200);
         }
 
         function calculateResult() {
@@ -350,7 +535,10 @@
             
             allAudits.push(auditData);
             
-            alert(`✅ Аудит по РЦ "${rc}" добавлен! Всего аудитов: ${allAudits.length}\n\nТеперь вы можете:\n1. Заполнить новый аудит (очистите поля и введите данные другого склада)\n2. Нажать "Скачать Excel" для выгрузки всех аудитов`);
+            // Сохраняем в localStorage для персистентности
+            saveAuditsToStorage();
+            
+            alert(`✅ Аудит по РЦ "${rc}" добавлен! Всего аудитов: ${allAudits.length}\n\nТеперь вы можете:\n1. Заполнить новый аудит (очистите поля и введите данные другого склада)\n2. Нажать "Скачать Excel" для выгрузки всех аудитов\n\n💾 Данные сохранены в браузере — можно закрыть приложение и вернуться позже.`);
             
             // Очищаем форму для следующего аудита
             document.getElementById('rc_name').value = "";
@@ -360,6 +548,20 @@
             document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('textarea').forEach(t => t.value = "");
             calculateResult();
+            currentItemIndex = 0;
+        }
+
+        function clearCurrentAudit() {
+            if (confirm('🗑 Очистить текущую форму аудита?\n\nЭто не удалит уже сохранённые аудиты.')) {
+                document.getElementById('rc_name').value = "";
+                document.getElementById('auditor').value = "";
+                document.getElementById('audit_date').value = "";
+                scores.fill(null);
+                document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('textarea').forEach(t => t.value = "");
+                calculateResult();
+                currentItemIndex = 0;
+            }
         }
 
         function exportToExcel() {
@@ -404,6 +606,13 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            
+            // Опционально: очистить после экспорта
+            if (confirm('🗑 Очистить все сохранённые аудиты после экспорта?')) {
+                allAudits = [];
+                saveAuditsToStorage();
+                alert('✅ Все аудиты очищены!');
+            }
         }
 
         function exportReport() {
@@ -437,6 +646,9 @@
                 alert("✅ Отчёт скопирован!");
             });
         }
+
+        // Загружаем сохранённые аудиты при старте страницы
+        loadAuditsFromStorage();
     </script>
 </body>
 </html>
