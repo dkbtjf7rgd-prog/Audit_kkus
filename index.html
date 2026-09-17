@@ -3,439 +3,645 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Аудит ККУС</title>
     <style>
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        :root { 
-            --orange: #FF6600; 
-            --yellow: #FFCC00; 
-            --black: #000000; 
-            --dark-gray: #333333; 
-            --gray: #808080; 
-            --light-gray: #F5F5F5; 
+        :root {
+            --lm-orange: #F58634; /* Основной оранжевый */
+            --lm-yellow: #FFD200; /* Желтый акцент */
+            --lm-black: #1A1A1A;  /* Черный текст/фон */
+            --lm-gray: #F2F2F2;   /* Светло-серый фон */
+            --lm-dark-gray: #808080; /* Серый текст */
             --white: #FFFFFF;
-            --success: #4CAF50;
-            --danger: #F44336;
         }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; 
-            background: var(--light-gray); 
-            color: var(--black); 
-            margin: 0; 
-            padding: 0; 
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--lm-gray);
+            color: var(--lm-black);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
-        
-        #start-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+
+        /* Контейнер для центрирования контента */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
             padding: 20px;
-            background: linear-gradient(135deg, var(--orange), var(--yellow));
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        
-        .start-card {
+
+        /* Стартовый экран */
+        #start-screen {
+            text-align: center;
             background: var(--white);
-            border-radius: 16px;
-            padding: 24px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-        
-        h1 { 
-            font-size: 24px; 
-            text-align: center; 
-            color: var(--black); 
-            margin: 0 0 20px; 
-            font-weight: 700;
-        }
-        
-        input, textarea { 
-            width: 100%; 
-            padding: 14px; 
-            border: 2px solid var(--gray); 
-            border-radius: 10px; 
-            font-size: 17px; 
-            margin-bottom: 14px; 
-            background: var(--white);
-            -webkit-appearance: none;
-            font-family: inherit;
-        }
-        input:focus, textarea:focus { 
-            outline: none; 
-            border-color: var(--orange); 
-        }
-        input[type="date"] {
-            background: var(--white);
-            color: var(--black);
-        }
-        
-        .btn-primary {
-            background: var(--orange);
-            color: var(--white);
-            border: none;
-            padding: 16px 32px;
+            padding: 30px;
             border-radius: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             width: 100%;
-            margin-top: 10px;
-            transition: all 0.2s;
         }
-        .btn-primary:active { transform: scale(0.98); opacity: 0.9; }
-        
+
+        h1 {
+            color: var(--lm-orange);
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--lm-black);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--lm-orange);
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background-color: var(--lm-orange);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background-color: var(--lm-black);
+            color: var(--white);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--lm-black);
+            color: var(--lm-black);
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: var(--lm-yellow);
+            color: var(--lm-black);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Экран аудита */
         #audit-screen {
             display: none;
             flex-direction: column;
             height: 100vh;
+            justify-content: space-between;
         }
-        
-        .header-bar {
-            background: var(--black);
-            color: var(--white);
-            padding: 16px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        
-        .question-container {
+
+        .question-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 16px;
+            justify-content: center;
             overflow-y: auto;
         }
-        
-        .question-card {
-            background: var(--white);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-            margin-bottom: 16px;
+
+        .block-title {
+            color: var(--lm-orange);
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--lm-yellow);
+            padding-bottom: 5px;
+            display: inline-block;
         }
-        
-        .question-number {
-            font-size: 14px;
-            color: var(--orange);
-            font-weight: 700;
-            margin-bottom: 8px;
+
+        .flow-tag {
+            background-color: var(--lm-black);
+            color: var(--lm-yellow);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 15px;
         }
-        
-        .question-text {
+
+        .requirement-text {
             font-size: 18px;
             font-weight: 600;
-            color: var(--black);
-            margin-bottom: 16px;
+            color: var(--lm-black);
+            margin-bottom: 15px;
             line-height: 1.4;
         }
-        
-        .flow-badge {
-            display: inline-block;
-            background: var(--yellow);
-            color: var(--black);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        
-        .method-box {
-            background: var(--light-gray);
-            padding: 16px;
-            border-radius: 10px;
+
+        .description-text {
             font-size: 14px;
-            color: var(--dark-gray);
-            margin-bottom: 16px;
+            color: var(--lm-dark-gray);
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--lm-orange);
+            margin-bottom: 20px;
             line-height: 1.5;
-            border-left: 4px solid var(--orange);
         }
-        .method-box b { color: var(--orange); }
-        
-        .scores { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 10px; 
-            margin-bottom: 16px; 
+
+        .score-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: auto;
         }
-        .score-btn { 
-            padding: 16px 0; 
-            text-align: center; 
-            border: 2px solid var(--gray); 
-            border-radius: 10px; 
-            font-weight: 700; 
-            font-size: 18px; 
-            cursor: pointer; 
-            transition: all 0.15s;
-            background: var(--white);
-            user-select: none;
-        }
-        .score-btn:active { transform: scale(0.95); }
-        .score-btn.s2.active { background: var(--success); color: var(--white); border-color: var(--success); }
-        .score-btn.s1.active { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
-        .score-btn.s0.active { background: var(--danger); color: var(--white); border-color: var(--danger); }
-        .score-btn.sna.active { background: var(--gray); color: var(--white); border-color: var(--gray); }
-        
-        textarea { resize: none; }
-        
-        .nav-buttons {
-            display: flex;
-            gap: 12px;
-            padding: 16px;
-            background: var(--white);
-            border-top: 1px solid var(--light-gray);
-        }
-        
-        .btn-nav {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
+
+        .score-btn {
+            padding: 15px 5px;
+            font-size: 18px;
+            font-weight: bold;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
         }
-        
-        .btn-prev { background: var(--gray); color: var(--white); }
-        .btn-next { background: var(--orange); color: var(--white); }
-        .btn-save { background: var(--success); color: var(--white); }
-        .btn-export { background: var(--black); color: var(--white); }
-        
-        .final-buttons {
+
+        .score-btn.selected {
+            background-color: var(--lm-orange);
+            color: white;
+            border-color: var(--lm-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(245, 134, 52, 0.4);
+        }
+
+        .nav-buttons {
             display: flex;
-            gap: 12px;
-            padding: 16px;
-            background: var(--white);
-            border-top: 1px solid var(--light-gray);
-            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            padding-bottom: 20px;
         }
-        
-        .final-buttons .btn-nav {
-            flex: 1;
-            min-width: 100px;
-        }
-        
-        .progress-indicator {
+
+        .progress-info {
             text-align: center;
-            padding: 8px;
-            background: var(--light-gray);
+            color: var(--lm-dark-gray);
             font-size: 14px;
-            color: var(--gray);
+            margin-bottom: 10px;
             font-weight: 600;
         }
-        
-        .hidden { display: none !important; }
+
+        /* Утилиты */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Адаптация под маленькие экраны */
+        @media (max-height: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .question-card {
+                padding: 15px;
+            }
+            .score-buttons {
+                gap: 5px;
+            }
+            .score-btn {
+                padding: 10px 2px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div id="start-screen">
-        <div class="start-card">
-            <h1>📋 Аудит ККУС</h1>
-            <input type="text" id="rc_name" placeholder="Название РЦ / Склада">
-            <input type="date" id="audit_date">
-            <input type="text" id="auditor" placeholder="ФИО Аудитора">
-            <button class="btn-primary" onclick="startAudit()">ДАЛЕЕ</button>
+    <!-- Стартовый экран -->
+    <div class="container" id="start-screen">
+        <h1>Аудит ККУС</h1>
+        <div class="input-group">
+            <label for="rc-name">Название РЦ</label>
+            <input type="text" id="rc-name" placeholder="Например: Москва">
+        </div>
+        <div class="input-group">
+            <label for="audit-date">Дата</label>
+            <input type="date" id="audit-date">
+        </div>
+        <div class="input-group">
+            <label for="auditor-name">ФИО Аудитора</label>
+            <input type="text" id="auditor-name" placeholder="Иванов И.И.">
+        </div>
+        <button class="btn btn-primary" onclick="startAudit()">ДАЛЕЕ</button>
+        
+        <div id="saved-audits-info" style="margin-top: 20px; font-size: 12px; color: #666;">
+            Сохраненных аудитов: <span id="saved-count">0</span>
+        </div>
+        <button class="btn btn-outline" onclick="downloadAllExcel()" style="margin-top: 10px; font-size: 12px; padding: 10px;">СКАЧАТЬ ВСЕ АУДИТЫ (EXCEL)</button>
+    </div>
+
+    <!-- Экран аудита -->
+    <div class="container" id="audit-screen" style="justify-content: flex-start; height: auto; min-height: 100vh;">
+        <div class="progress-info" id="progress-text">Вопрос 1 из 14</div>
+        
+        <div class="question-card">
+            <div class="block-title" id="q-block-title">БЛОК</div>
+            <div class="flow-tag" id="q-flow">ПОТОК</div>
+            <div class="requirement-text" id="q-requirement">Текст требования</div>
+            <div class="description-text" id="q-description">Описание проверки</div>
+            
+            <div class="score-buttons">
+                <button class="score-btn" onclick="selectScore(2)">2</button>
+                <button class="score-btn" onclick="selectScore(1)">1</button>
+                <button class="score-btn" onclick="selectScore(0)">0</button>
+                <button class="score-btn" onclick="selectScore('np')">н/п</button>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" id="btn-prev" onclick="prevQuestion()">НАЗАД</button>
+            <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">ДАЛЕЕ</button>
         </div>
     </div>
 
-    <div id="audit-screen">
-        <div class="header-bar">
-            РЦ: <span id="display-rc"></span> | Аудитор: <span id="display-auditor"></span>
-        </div>
+    <!-- Финальный экран -->
+    <div class="container" id="final-screen" style="display: none; text-align: center;">
+        <h1>Аудит завершен</h1>
+        <p style="margin-bottom: 20px; color: #666;">Проверьте ответы перед сохранением.</p>
         
-        <div class="progress-indicator" id="progress">Вопрос 1 из 14</div>
-        
-        <div class="question-container" id="question-container"></div>
-        
-        <div class="nav-buttons" id="nav-buttons">
-            <button class="btn-nav btn-prev" onclick="prevQuestion()">← Назад</button>
-            <button class="btn-nav btn-next" onclick="nextQuestion()">Далее →</button>
-        </div>
-        
-        <div class="final-buttons hidden" id="final-buttons">
-            <button class="btn-nav btn-prev" onclick="prevQuestion()">← Назад</button>
-            <button class="btn-nav btn-save" onclick="saveAudit()">💾 Сохранить</button>
-            <button class="btn-nav btn-export" onclick="exportToExcel()">📊 Скачать Excel</button>
-        </div>
+        <button class="btn btn-secondary" onclick="prevQuestion()">НАЗАД</button>
+        <button class="btn btn-success" onclick="saveAudit()">СОХРАНИТЬ</button>
+        <button class="btn btn-warning" onclick="downloadCurrentExcel()">СКАЧАТЬ ЭТОТ АУДИТ (EXCEL)</button>
     </div>
 
     <script>
-        const data = [
-            { cat: "ЗОНЫ ХРАНЕНИЯ И ПИКИНГА", id: "1.1", req: "За цикл просчитаны все ячейки согласно графику ЦИ", method: "Проверить отчёт по инвентаризации. Все ли ячейки были просчитаны за последний цикл ЦИ?", flow: "СТОК" },
-            { cat: "ЗОНЫ ХРАНЕНИЯ И ПИКИНГА", id: "1.2", req: "Проведена выборочная проверка аллей на «пусто-занято»", method: "Выгрузить размещение-пополнение-перемещение за 7 дней. Удалить дубликаты, сделать ВПР с отчётом стока по местам, отсортировать по аллеям. Сформировать список 100–200 адресов для проверки. Все паллеты физически находятся по адресу в WMS.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.1", req: "Отсутствие в зонах DOC, ZDO, OUT отмененных заказов, не возвращенных в сток более 24 часов", method: "Анализ отчёта «Мониторинг отгрузки». В зонах не должно быть заказов, отменённых более 24 часов назад. Отсутствие артикулов без блока и резерва.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.2", req: "Время нахождения товара в зоне RZ не превышает 6 часов", method: "Анализ отчёта D2S (дата размещения). Время нахождения в зоне RZ не должно превышать 6 часов.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.3", req: "Актуальность данных в ячейках довоза, обмена, переносов", method: "Выборочная проверка 5–7 заказов в зоне довозов и переносов. Товар должен соответствовать WMS, даты актуальны.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.4", req: "Отсутствие отмененных заказов, не разобранных более 12 часов (3 часа для ДС с ДВД)", method: "Проверка отчётов WMS по отменённым заказам. Не должно быть отменённых заказов, не разобранных более 12 часов.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.5", req: "Виртуальные зоны склада очищены от зависших паллет. Промежуточные зоны склада не содержат паллет более 12 часов", method: "Проверка отчёта стока по местам или WMS Stock It Easy. Не должно быть зависших паллет. В случае вынужденного размещения — информационное письмо.", flow: "Все потоки" },
-            { cat: "АНОМАЛЬНЫЕ ЗОНЫ", id: "3.1", req: "Соответствие физического товара данным в WMS и наличие подтверждающих документов", method: "Сверка содержимого аномальных ячеек с реестрами и актами. Физический товар должен соответствовать WMS.", flow: "СТОК ДС \\ Все потоки РЦ" },
-            { cat: "АНОМАЛЬНЫЕ ЗОНЫ", id: "3.2", req: "Соблюдение регламентов и сроков обработки блокировок", method: "Анализ времени нахождения товара в блокировках. Сроки обработки блокировок должны соблюдаться.", flow: "СТОК ДС \\ Все потоки РЦ" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)", id: "4.1", req: "Количество заблокированного товара идентично в WMS и RMS", method: "Сравнение выгрузок из WMS и RMS. Данные по заблокированному товару должны совпадать.", flow: "СТОК ДС \\ Все потоки РЦ" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)", id: "4.2", req: "Все трансферы имеют статус «Отгружен» в обеих системах", method: "Анализ отчёта по трансферам/возвратам. В статусе «Отгружен» не должно быть расхождений между WMS и RMS.", flow: "СТОК ДС \\ Все потоки РЦ" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)", id: "4.3", req: "Недопоставки (статус «кража»). В системе RMS отсутствует товар, заблокированный как «кража»", method: "Проверка отчёта сток RMS, сверка с Актами МП8 (по инструкции).", flow: "Импорт / СТОК РЦ" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)", id: "4.4", req: "На РЦ нет «старых утвержденных трансферов» свыше 72 часов. Все утвержденные в RMS трансферы собраны и отгружены согласно KPI потока", method: "Проверка по отчёту «Реестр трансферов» и «Интеграция трансферов WMS/RMS». Нет «зависших» без обработки трансферов, нет сбоя интеграции.", flow: "Все потоки" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)", id: "4.5", req: "К моменту ФИ процент расхождений стока между системами WMS и RMS не превышает целевой показатель 0,20%", method: "Проверка по отчёту «Сверка стоков WMS-RMS».", flow: "РЦ" }
+        // Данные вопросов
+        const questions = [
+            // БЛОК 1
+            {
+                block: "ЗОНЫ ХРАНЕНИЯ И ПИКИНГА",
+                flow: "СТОК",
+                requirement: "За цикл просчитаны все ячейки согласно графику ЦИ",
+                description: "Проверка выполнения графика циклических инвентаризаций. Сверка фактического количества пересчетов с планом."
+            },
+            {
+                block: "ЗОНЫ ХРАНЕНИЯ И ПИКИНГА",
+                flow: "СТОК",
+                requirement: "Проведена выборочная проверка аллей на \"пусто-занято\"",
+                description: "Выборочный обход аллей. Сверка физического наличия товара с данными системы (ячейка пуста/занята)."
+            },
+            // БЛОК 2
+            {
+                block: "ОПЕРАЦИОННЫЕ ЗОНЫ",
+                flow: "СТОК",
+                requirement: "Отсутствие в зонах DOC, ZDO, OUT отмененных заказов, не возвращенных в сток более 24 часов",
+                description: "Проверка зон DOC, ZDO, OUT на наличие отмененных заказов. Контроль срока возврата в сток (не более 24ч)."
+            },
+            {
+                block: "ОПЕРАЦИОННЫЕ ЗОНЫ",
+                flow: "СТОК",
+                requirement: "Время нахождения товара в зоне RZ не превышает 6 часов",
+                description: "Контроль зон RZ, dovoz, obmen, \"зона переноса доставки\". Проверка времени пребывания товара (макс 6ч)."
+            },
+            {
+                block: "ОПЕРАЦИОННЫЕ ЗОНЫ",
+                flow: "СТОК",
+                requirement: "Актуальность данных в ячейках довоза, обмена, переносов",
+                description: "Сверка физического наличия и системы в ячейках довоза, обмена и переносов."
+            },
+            {
+                block: "ОПЕРАЦИОННЫЕ ЗОНЫ",
+                flow: "СТОК",
+                requirement: "Отсутствие отмененных заказов, не разобранных более 12 часов (3 часа для ДС с ДВД)",
+                description: "Проверка зон разбора отмененных заказов. Соблюдение нормативов времени (12ч / 3ч)."
+            },
+            {
+                block: "ОПЕРАЦИОННЫЕ ЗОНЫ",
+                flow: "все потоки",
+                requirement: "Виртуальные зоны склада очищены от зависших паллет. Промежуточные зоны склада не содержат паллет более 12 часов",
+                description: "Доступность стока к отзыву. Убедиться, что все процессы склада, требующие использование промежуточных зон (буферных или виртуальных) завершены. Виртуальные зоны пусты, буферные зоны не содержат паллет (суппортов) старше 12 часов."
+            },
+            // БЛОК 3
+            {
+                block: "АНОМАЛЬНЫЕ ЗОНЫ",
+                flow: "СТОК ДС \\ все потоки РЦ",
+                requirement: "Соответствие физического товара данным в WMS и наличие подтверждающих документов",
+                description: "Учет товара в аномальных зонах (брак, блокировки, излишки). Сверка факт/система и проверка документации."
+            },
+            {
+                block: "АНОМАЛЬНЫЕ ЗОНЫ",
+                flow: "СТОК ДС \\ все потоки РЦ",
+                requirement: "Соблюдение регламентов и сроков обработки блокировок",
+                description: "Проверка сроков обработки заблокированного товара согласно внутренним регламентам."
+            },
+            // БЛОК 4
+            {
+                block: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)",
+                flow: "СТОК ДС \\ все потоки РЦ",
+                requirement: "Количество заблокированного товара идентично в WMS и RMS",
+                description: "Синхронизация данных WMS-RMS. Сверка остатков заблокированного товара в обеих системах."
+            },
+            {
+                block: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)",
+                flow: "СТОК ДС \\ все потоки РЦ",
+                requirement: "Все трансферы имеют статус \"Отгружен\" в обеих системах",
+                description: "Синхронизация данных WMS-RMS. Проверка статусов трансферов."
+            },
+            {
+                block: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)",
+                flow: "импорт сток РЦ",
+                requirement: "Достоверность стока в RMS. Убираем риск нарушений В ФИ. В системе RMS отсутствует товар, заблокированный как «кража»",
+                description: "Недопоставки (статус «кража»). Проверка отсутствия товара со статусом кража в RMS."
+            },
+            {
+                block: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)",
+                flow: "все потоки",
+                requirement: "На РЦ нет «старых утвержденных трансферов» свыше 72 часов. Все утвержденные в RMS трансферы собраны и отгружены согласно KPI потока, нет \"зависших\" без обработки трансферов, нет сбоя интеграции.",
+                description: "Контроль возраста утвержденных трансферов. Отсутствие зависших процессов и сбоев интеграции."
+            },
+            {
+                block: "ИНТЕГРАЦИЯ WMS-RMS (для фискального ККУС)",
+                flow: "РЦ",
+                requirement: "К моменту ФИ процент расхождений стока между системами WMS и RMS не превышает целевой показатель 0,20%",
+                description: "Сверка RMS-WMS. Расчет процента расхождений и сравнение с целевым показателем (0.20%)."
+            }
         ];
 
-        let currentQuestion = 0;
-        let auditData = { rc: "", date: "", auditor: "", scores: new Array(data.length).fill(null), comments: new Array(data.length).fill("") };
+        let currentQuestionIndex = 0;
+        let currentAnswers = {};
+        let auditInfo = {};
 
+        // Инициализация при загрузке
         window.onload = function() {
-            const saved = localStorage.getItem('kkuks_audit_data');
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                document.getElementById('rc_name').value = parsed.rc || "";
-                document.getElementById('audit_date').value = parsed.date || "";
-                document.getElementById('auditor').value = parsed.auditor || "";
-                auditData = parsed;
-            } else {
-                document.getElementById('audit_date').value = new Date().toISOString().split('T')[0];
-            }
+            updateSavedCount();
+            // Установка сегодняшней даты по умолчанию
+            document.getElementById('audit-date').valueAsDate = new Date();
         };
 
         function startAudit() {
-            const rc = document.getElementById('rc_name').value.trim();
-            const date = document.getElementById('audit_date').value;
-            const auditor = document.getElementById('auditor').value.trim();
+            const rc = document.getElementById('rc-name').value.trim();
+            const date = document.getElementById('audit-date').value;
+            const auditor = document.getElementById('auditor-name').value.trim();
 
             if (!rc || !date || !auditor) {
-                alert("⚠️ Заполните все поля: Название РЦ, Дата и ФИО Аудитора");
+                alert("Пожалуйста, заполните все поля: РЦ, Дата и ФИО.");
                 return;
             }
 
-            auditData.rc = rc;
-            auditData.date = date;
-            auditData.auditor = auditor;
+            auditInfo = { rc, date, auditor, timestamp: new Date().toISOString() };
+            currentAnswers = {};
+            currentQuestionIndex = 0;
 
-            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('final-screen').style.display = 'none';
             document.getElementById('audit-screen').style.display = 'flex';
             
-            document.getElementById('display-rc').textContent = rc;
-            document.getElementById('display-auditor').textContent = auditor;
-
             renderQuestion();
         }
 
         function renderQuestion() {
-            const container = document.getElementById('question-container');
-            const item = data[currentQuestion];
+            const q = questions[currentQuestionIndex];
+            
+            document.getElementById('q-block-title').textContent = q.block;
+            document.getElementById('q-flow').textContent = q.flow;
+            document.getElementById('q-requirement').textContent = q.requirement;
+            document.getElementById('q-description').textContent = q.description;
+            document.getElementById('progress-text').textContent = `Вопрос ${currentQuestionIndex + 1} из ${questions.length}`;
 
-            container.innerHTML = '<div class="question-card">' +
-                '<div class="question-number">Вопрос ' + (currentQuestion + 1) + '</div>' +
-                '<div class="flow-badge">' + item.flow + '</div>' +
-                '<div class="question-text">' + item.id + '. ' + item.req + '</div>' +
-                '<div class="method-box"><b>Как проверяем:</b><br>' + item.method + '</div>' +
-                '<div class="scores">' +
-                '<div class="score-btn s2 ' + (auditData.scores[currentQuestion] === 2 ? 'active' : '') + '" onclick="setScore(2)">2</div>' +
-                '<div class="score-btn s1 ' + (auditData.scores[currentQuestion] === 1 ? 'active' : '') + '" onclick="setScore(1)">1</div>' +
-                '<div class="score-btn s0 ' + (auditData.scores[currentQuestion] === 0 ? 'active' : '') + '" onclick="setScore(0)">0</div>' +
-                '<div class="score-btn sna ' + (auditData.scores[currentQuestion] === 'Н/П' ? 'active' : '') + '" onclick="setScore(\'Н/П\')">Н/П</div>' +
-                '</div>' +
-                '<textarea rows="3" placeholder="Комментарии / Наблюдения..." oninput="saveComment(this.value)">' + (auditData.comments[currentQuestion] || '') + '</textarea>' +
-                '</div>';
+            // Сброс кнопок
+            const buttons = document.querySelectorAll('.score-btn');
+            buttons.forEach(btn => btn.classList.remove('selected'));
 
-            document.getElementById('progress').textContent = 'Вопрос ' + (currentQuestion + 1) + ' из ' + data.length;
+            // Восстановление ответа если есть
+            if (currentAnswers[currentQuestionIndex] !== undefined) {
+                const val = currentAnswers[currentQuestionIndex];
+                // Находим кнопку с соответствующим текстом или логикой
+                buttons.forEach(btn => {
+                    if (btn.textContent == val) {
+                        btn.classList.add('selected');
+                    }
+                });
+            }
 
-            const navButtons = document.getElementById('nav-buttons');
-            const finalButtons = document.getElementById('final-buttons');
-            const prevBtn = navButtons.querySelector('.btn-prev');
-
-            if (currentQuestion === 0) {
-                prevBtn.style.opacity = '0.5';
-                prevBtn.disabled = true;
+            // Управление видимостью кнопок навигации
+            document.getElementById('btn-prev').style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+            
+            const nextBtn = document.getElementById('btn-next');
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = "ЗАВЕРШИТЬ";
             } else {
-                prevBtn.style.opacity = '1';
-                prevBtn.disabled = false;
+                nextBtn.textContent = "ДАЛЕЕ";
             }
-
-            if (currentQuestion === data.length - 1) {
-                navButtons.classList.add('hidden');
-                finalButtons.classList.remove('hidden');
-            } else {
-                navButtons.classList.remove('hidden');
-                finalButtons.classList.add('hidden');
-            }
-
-            saveToLocalStorage();
         }
 
-        function setScore(score) {
-            auditData.scores[currentQuestion] = score;
-            renderQuestion();
-        }
-
-        function saveComment(comment) {
-            auditData.comments[currentQuestion] = comment;
-            saveToLocalStorage();
-        }
-
-        function prevQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                renderQuestion();
-            }
+        function selectScore(score) {
+            currentAnswers[currentQuestionIndex] = score;
+            
+            // Визуальное выделение
+            const buttons = document.querySelectorAll('.score-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('selected');
+                if (btn.textContent == score) {
+                    btn.classList.add('selected');
+                }
+            });
         }
 
         function nextQuestion() {
-            if (currentQuestion < data.length - 1) {
-                currentQuestion++;
+            // Проверка наличия ответа (опционально, можно убрать если разрешено пропускать)
+            if (currentAnswers[currentQuestionIndex] === undefined) {
+                // Если хотите строго требовать ответ, раскомментируйте:
+                // alert("Пожалуйста, выберите оценку.");
+                // return;
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                // Переход на финальный экран
+                document.getElementById('audit-screen').style.display = 'none';
+                document.getElementById('final-screen').style.display = 'block';
+            }
+        }
+
+        function prevQuestion() {
+            if (document.getElementById('final-screen').style.display === 'block') {
+                // Возврат с финального экрана на последний вопрос
+                document.getElementById('final-screen').style.display = 'none';
+                document.getElementById('audit-screen').style.display = 'flex';
+                return;
+            }
+
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
                 renderQuestion();
             }
         }
 
-        function saveToLocalStorage() {
-            localStorage.setItem('kkuks_audit_data', JSON.stringify(auditData));
-        }
-
         function saveAudit() {
-            saveToLocalStorage();
-            alert("✅ Аудит сохранён в памяти браузера!\n\nВы можете закрыть страницу и вернуться позже — все данные сохранятся.");
+            // Сбор всех данных
+            const fullAuditData = {
+                ...auditInfo,
+                answers: currentAnswers,
+                questionsSnapshot: questions // Сохраняем snapshot вопросов на момент аудита
+            };
+
+            // Получаем существующие аудиты из localStorage
+            let allAudits = JSON.parse(localStorage.getItem('kkuс_audits') || '[]');
+            allAudits.push(fullAuditData);
+
+            // Сохраняем обратно
+            localStorage.setItem('kkuс_audits', JSON.stringify(allAudits));
+
+            alert("Аудит успешно сохранен в памяти браузера!");
+
+            // Очистка формы и возврат на старт
+            resetForm();
         }
 
-        function exportToExcel() {
-            const rc = auditData.rc;
-            const date = auditData.date;
-            const auditor = auditData.auditor;
-
-            let csv = '\uFEFF';
-            csv += "РЦ;Дата;Аудитор;;;\n";
-            csv += rc + ";" + date + ";" + auditor + ";;;\n\n";
-            csv += "№;Категория;Требование;Поток;Оценка;Комментарий\n";
-
-            data.forEach((item, idx) => {
-                const score = auditData.scores[idx] !== null ? auditData.scores[idx] : "";
-                const comment = (auditData.comments[idx] || "").replace(/;/g, ",");
-                csv += item.id + ";" + item.cat + ";" + item.req + ";" + item.flow + ";" + score + ";" + comment + "\n";
-            });
-
-            let sum = 0, count = 0;
-            auditData.scores.forEach(s => {
-                if (s !== null && s !== 'Н/П') {
-                    sum += s;
-                    count++;
-                }
-            });
-            const avg = count > 0 ? (sum / count).toFixed(2) : "—";
+        function resetForm() {
+            document.getElementById('rc-name').value = '';
+            document.getElementById('auditor-name').value = '';
+            // Дату можно оставить или очистить, оставим как есть для удобства
+            currentAnswers = {};
+            currentQuestionIndex = 0;
             
-            csv += "\nИТОГОВЫЙ БАЛЛ;" + avg + "\n";
+            document.getElementById('final-screen').style.display = 'none';
+            document.getElementById('audit-screen').style.display = 'none';
+            document.getElementById('start-screen').style.display = 'block';
+            
+            updateSavedCount();
+        }
 
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', "Аудит_ККУС_" + rc + "_" + date + ".csv");
-            link.style.visibility = 'hidden';
+        function updateSavedCount() {
+            const count = JSON.parse(localStorage.getItem('kkuс_audits') || '[]').length;
+            document.getElementById('saved-count').textContent = count;
+        }
+
+        function downloadCurrentExcel() {
+            const data = [
+                ["РЦ", auditInfo.rc],
+                ["Дата", auditInfo.date],
+                ["Аудитор", auditInfo.auditor],
+                [],
+                ["Блок", "Поток", "Требование", "Оценка"]
+            ];
+
+            questions.forEach((q, index) => {
+                const ans = currentAnswers[index] !== undefined ? currentAnswers[index] : "Нет ответа";
+                data.push([q.block, q.flow, q.requirement, ans]);
+            });
+
+            exportToCSV(data, `Аудит_${auditInfo.rc}_${auditInfo.date}.csv`);
+        }
+
+        function downloadAllExcel() {
+            const allAudits = JSON.parse(localStorage.getItem('kkuс_audits') || '[]');
+            if (allAudits.length === 0) {
+                alert("Нет сохраненных аудитов.");
+                return;
+            }
+
+            // Формируем большой файл со всеми аудитами
+            // Заголовки
+            let csvContent = "Дата выгрузки;" + new Date().toLocaleString() + "\n\n";
+            
+            allAudits.forEach((audit, auditIndex) => {
+                csvContent += `=== АУДИТ №${auditIndex + 1} ===\n`;
+                csvContent += `РЦ;${audit.rc}\n`;
+                csvContent += `Дата аудита;${audit.date}\n`;
+                csvContent += `Аудитор;${audit.auditor}\n`;
+                csvContent += `Время сохранения;${audit.timestamp}\n`;
+                csvContent += `\nБлок;Поток;Требование;Оценка\n`;
+
+                // Используем snapshot вопросов если есть, иначе текущие (на случай изменений структуры)
+                const qList = audit.questionsSnapshot || questions;
+                
+                qList.forEach(q => {
+                    const ans = audit.answers[questions.indexOf(q)] !== undefined ? audit.answers[questions.indexOf(q)] : "Нет ответа";
+                    // Экранирование точки с запятой в тексте
+                    const safeBlock = q.block.replace(/;/g, ",");
+                    const safeFlow = q.flow.replace(/;/g, ",");
+                    const safeReq = q.requirement.replace(/;/g, ",");
+                    csvContent += `${safeBlock};${safeFlow};${safeReq};${ans}\n`;
+                });
+                csvContent += `\n\n`;
+            });
+
+            downloadFile(csvContent, "Все_аудиты_ККУС.csv", "text/csv;charset=utf-8;");
+        }
+
+        function exportToCSV(dataArray, filename) {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            dataArray.forEach(row => {
+                // Экранирование спецсимволов для CSV
+                const cleanRow = row.map(item => {
+                    if (typeof item === 'string' && (item.includes(',') || item.includes('"') || item.includes('\n'))) {
+                        return `"${item.replace(/"/g, '""')}"`;
+                    }
+                    return item;
+                });
+                csvContent += cleanRow.join(";") + "\n";
+            });
+            downloadFile(csvContent, filename, "text/csv;charset=utf-8;");
+        }
+
+        function downloadFile(content, fileName, contentType) {
+            const encodedUri = encodeURI(content);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", fileName);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
