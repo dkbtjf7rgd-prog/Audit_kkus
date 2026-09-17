@@ -7,211 +7,263 @@
     <title>Аудит ККУС</title>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        :root { --primary: #007AFF; --success: #34C759; --warning: #FF9500; --danger: #FF3B30; --bg: #F2F2F7; }
+        :root { 
+            --orange: #FF6600; 
+            --yellow: #FFCC00; 
+            --black: #000000; 
+            --dark-gray: #333333; 
+            --gray: #808080; 
+            --light-gray: #F5F5F5; 
+            --white: #FFFFFF;
+            --success: #4CAF50;
+            --danger: #F44336;
+        }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; 
-            background: var(--bg); 
-            color: #000; 
+            background: var(--light-gray); 
+            color: var(--black); 
             margin: 0; 
-            padding: 12px; 
-            padding-bottom: 110px;
+            padding: 0; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             -webkit-font-smoothing: antialiased;
         }
+        
+        #start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--orange), var(--yellow));
+        }
+        
+        .start-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
         h1 { 
-            font-size: 22px; 
+            font-size: 24px; 
             text-align: center; 
-            color: var(--primary); 
-            margin: 15px 0 20px; 
+            color: var(--black); 
+            margin: 0 0 20px; 
             font-weight: 700;
         }
-        .card { 
-            background: #fff; 
-            border-radius: 14px; 
-            padding: 16px; 
-            margin-bottom: 14px; 
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06); 
-        }
+        
         input, textarea { 
             width: 100%; 
             padding: 14px; 
-            border: 1px solid #E5E5EA; 
+            border: 2px solid var(--gray); 
             border-radius: 10px; 
             font-size: 17px; 
-            margin-bottom: 10px; 
-            background: #fff;
+            margin-bottom: 14px; 
+            background: var(--white);
             -webkit-appearance: none;
             font-family: inherit;
         }
         input:focus, textarea:focus { 
             outline: none; 
-            border-color: var(--primary); 
+            border-color: var(--orange); 
         }
-        /* Поле даты для iOS */
         input[type="date"] {
-            background: #fff;
-            color: #000;
-            position: relative;
+            background: var(--white);
+            color: var(--black);
         }
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            opacity: 1;
-            cursor: pointer;
-            padding: 8px;
-        }
-        h2 { 
-            font-size: 15px; 
-            color: var(--primary); 
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 22px 0 10px; 
-            padding-left: 4px;
+        
+        .btn-primary {
+            background: var(--orange);
+            color: var(--white);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 18px;
             font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.2s;
         }
-        .item-card { 
-            background: #fff;
-            border-radius: 12px; 
-            margin-bottom: 10px; 
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        .btn-primary:active { transform: scale(0.98); opacity: 0.9; }
+        
+        #audit-screen {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
         }
-        .item-header { 
-            padding: 14px; 
-            font-size: 15px; 
+        
+        .header-bar {
+            background: var(--black);
+            color: var(--white);
+            padding: 16px;
+            text-align: center;
+            font-size: 16px;
             font-weight: 600;
-            line-height: 1.3;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: flex-start;
-            gap: 8px;
         }
-        .item-header .text { flex: 1; }
-        .item-body { 
-            padding: 0 14px 14px; 
-            display: none; 
-            border-top: 1px solid #F2F2F7;
+        
+        .question-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            overflow-y: auto;
         }
-        .item-body.active { display: block; }
-        .method-box { 
-            background: #F2F2F7; 
-            padding: 12px; 
-            border-radius: 10px; 
-            font-size: 14px; 
-            color: #3C3C43; 
-            margin: 12px 0;
+        
+        .question-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            margin-bottom: 16px;
+        }
+        
+        .question-number {
+            font-size: 14px;
+            color: var(--orange);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 16px;
             line-height: 1.4;
         }
-        .method-box b { color: var(--primary); }
+        
+        .flow-badge {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--black);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .method-box {
+            background: var(--light-gray);
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--dark-gray);
+            margin-bottom: 16px;
+            line-height: 1.5;
+            border-left: 4px solid var(--orange);
+        }
+        .method-box b { color: var(--orange); }
+        
         .scores { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
-            gap: 8px; 
-            margin-bottom: 10px; 
+            gap: 10px; 
+            margin-bottom: 16px; 
         }
         .score-btn { 
-            padding: 14px 0; 
+            padding: 16px 0; 
             text-align: center; 
-            border: 2px solid #E5E5EA; 
+            border: 2px solid var(--gray); 
             border-radius: 10px; 
             font-weight: 700; 
             font-size: 18px; 
             cursor: pointer; 
             transition: all 0.15s;
-            background: #fff;
+            background: var(--white);
             user-select: none;
         }
         .score-btn:active { transform: scale(0.95); }
-        .score-btn.s2.active { background: var(--success); color: #fff; border-color: var(--success); }
-        .score-btn.s1.active { background: var(--warning); color: #fff; border-color: var(--warning); }
-        .score-btn.s0.active { background: var(--danger); color: #fff; border-color: var(--danger); }
-        .score-btn.sna.active { background: #8E8E93; color: #fff; border-color: #8E8E93; }
-        .toggle-btn { 
-            background: var(--primary); 
-            color: #fff; 
-            border: none; 
-            border-radius: 8px;
-            font-size: 13px; 
-            cursor: pointer; 
-            padding: 6px 10px;
-            font-weight: 600;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .badge { 
-            font-size: 11px; 
-            background: var(--primary); 
-            color: #fff; 
-            padding: 3px 8px; 
-            border-radius: 10px; 
-            margin-left: 6px;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 4px;
-        }
-        .footer-bar { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            right: 0; 
-            background: #fff; 
-            padding: 14px 16px; 
-            padding-bottom: calc(14px + env(safe-area-inset-bottom));
-            box-shadow: 0 -2px 12px rgba(0,0,0,0.08); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            z-index: 100; 
-        }
-        .result-text { font-size: 15px; font-weight: 700; line-height: 1.3; }
-        .btn-export { 
-            background: var(--primary); 
-            color: #fff; 
-            border: none; 
-            padding: 14px 22px; 
-            border-radius: 12px; 
-            font-size: 16px; 
-            font-weight: 700; 
-            cursor: pointer;
-        }
-        .btn-export:active { opacity: 0.8; }
-        .no-js-warning {
-            background: #FF3B30;
-            color: #fff;
+        .score-btn.s2.active { background: var(--success); color: var(--white); border-color: var(--success); }
+        .score-btn.s1.active { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
+        .score-btn.s0.active { background: var(--danger); color: var(--white); border-color: var(--danger); }
+        .score-btn.sna.active { background: var(--gray); color: var(--white); border-color: var(--gray); }
+        
+        textarea { resize: none; }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
             padding: 16px;
-            border-radius: 12px;
-            margin: 12px 0;
-            font-size: 15px;
-            line-height: 1.4;
-            display: none;
+            background: var(--white);
+            border-top: 1px solid var(--light-gray);
         }
+        
+        .btn-nav {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-prev { background: var(--gray); color: var(--white); }
+        .btn-next { background: var(--orange); color: var(--white); }
+        .btn-save { background: var(--success); color: var(--white); }
+        .btn-export { background: var(--black); color: var(--white); }
+        
+        .final-buttons {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            background: var(--white);
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .progress-indicator {
+            text-align: center;
+            padding: 8px;
+            background: var(--light-gray);
+            font-size: 14px;
+            color: var(--gray);
+            font-weight: 600;
+        }
+        
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div class="no-js-warning" id="nojs">
-        ⚠️ JavaScript отключён или заблокирован. Откройте файл через <b>Safari</b> (не через встроенный просмотрщик), либо загрузите на любой хостинг (например, netlify.com/drop).
-    </div>
-
-    <h1>📋 Аудит ККУС<br><small style="font-size:15px;color:#666;font-weight:500;">Приёмка и Размещение</small></h1>
-    
-    <div class="card">
-        <input type="text" id="rc_name" placeholder="Название РЦ / Склада">
-        <input type="date" id="audit_date">
-        <input type="text" id="auditor" placeholder="ФИО Аудитора">
-    </div>
-
-    <div id="checklist-container"></div>
-
-    <div class="footer-bar">
-        <div class="result-text">
-            Итог: <span id="avg-score">—</span><br>
-            <small id="verdict" style="color: #8E8E93; font-weight:500;">Нет оценок</small>
+    <div id="start-screen">
+        <div class="start-card">
+            <h1>📋 Аудит ККУС</h1>
+            <input type="text" id="rc_name" placeholder="Название РЦ / Склада">
+            <input type="date" id="audit_date">
+            <input type="text" id="auditor" placeholder="ФИО Аудитора">
+            <button class="btn-primary" onclick="startAudit()">ДАЛЕЕ</button>
         </div>
-        <button class="btn-export" onclick="exportReport()">📤 Отчёт</button>
+    </div>
+
+    <div id="audit-screen">
+        <div class="header-bar">
+            РЦ: <span id="display-rc"></span> | Аудитор: <span id="display-auditor"></span>
+        </div>
+        
+        <div class="progress-indicator" id="progress">Вопрос 1 из 15</div>
+        
+        <div class="question-container" id="question-container"></div>
+        
+        <div class="nav-buttons" id="nav-buttons">
+            <button class="btn-nav btn-prev" onclick="prevQuestion()">← Пред</button>
+            <button class="btn-nav btn-next" onclick="nextQuestion()">След →</button>
+        </div>
+        
+        <div class="final-buttons hidden" id="final-buttons">
+            <button class="btn-nav btn-save" onclick="saveAudit()">💾 Сохранить</button>
+            <button class="btn-nav btn-export" onclick="exportToExcel()">📊 Скачать Excel</button>
+        </div>
     </div>
 
     <script>
-        // Проверка работы JS
-        document.getElementById('nojs').style.display = 'none';
-
         const data = [
             { cat: "ЗОНЫ ХРАНЕНИЯ И ПИКИНГА", id: "1.1", req: "За цикл просчитаны все ячейки согласно графику ЦИ", method: "Проверить отчёт по инвентаризации. Все ли ячейки были просчитаны за последний цикл ЦИ?", flow: "СТОК" },
             { cat: "ЗОНЫ ХРАНЕНИЯ И ПИКИНГА", id: "1.2", req: "Проведена выборочная проверка аллей на «пусто-занято»", method: "Выгрузить размещение-пополнение-перемещение за 7 дней. Удалить дубликаты, сделать ВПР с отчётом стока по местам, отсортировать по аллеям. Сформировать список 100–200 адресов для проверки. Все паллеты физически находятся по адресу в WMS.", flow: "СТОК" },
@@ -229,107 +281,157 @@
             { cat: "ИНТЕГРАЦИЯ WMS-RMS", id: "4.5", req: "Процент расхождений стока WMS и RMS не превышает 0,20%", method: "Проверка по отчёту «Сверка стоков WMS-RMS».", flow: "РЦ" }
         ];
 
-        const container = document.getElementById('checklist-container');
-        let currentCat = "";
+        let currentQuestion = 0;
+        let auditData = { rc: "", date: "", auditor: "", scores: new Array(data.length).fill(null), comments: new Array(data.length).fill("") };
 
-        data.forEach((item, index) => {
-            if (item.cat !== currentCat) {
-                currentCat = item.cat;
-                container.innerHTML += `<h2>${currentCat}</h2>`;
+        window.onload = function() {
+            const saved = localStorage.getItem('kkuks_audit_data');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                document.getElementById('rc_name').value = parsed.rc || "";
+                document.getElementById('audit_date').value = parsed.date || "";
+                document.getElementById('auditor').value = parsed.auditor || "";
+                auditData = parsed;
+            } else {
+                document.getElementById('audit_date').value = new Date().toISOString().split('T')[0];
             }
-            container.innerHTML += `
-                <div class="item-card" id="card-${index}">
-                    <div class="item-header">
-                        <div class="text">${item.id}. ${item.req}<br><span class="badge">${item.flow}</span></div>
-                        <button class="toggle-btn" onclick="toggleMethod(${index})">Метод</button>
-                    </div>
-                    <div class="item-body" id="method-${index}">
-                        <div class="method-box"><b>Как проверяем:</b><br>${item.method}</div>
-                        <div class="scores">
-                            <div class="score-btn s2" onclick="setScore(${index}, 2, this)">2</div>
-                            <div class="score-btn s1" onclick="setScore(${index}, 1, this)">1</div>
-                            <div class="score-btn s0" onclick="setScore(${index}, 0, this)">0</div>
-                            <div class="score-btn sna" onclick="setScore(${index}, 'Н/П', this)">Н/П</div>
-                        </div>
-                        <textarea rows="2" placeholder="Комментарии / Наблюдения..." id="comment-${index}"></textarea>
-                    </div>
-                </div>
-            `;
-        });
+        };
 
-        const scores = new Array(data.length).fill(null);
+        function startAudit() {
+            const rc = document.getElementById('rc_name').value.trim();
+            const date = document.getElementById('audit_date').value;
+            const auditor = document.getElementById('auditor').value.trim();
 
-        function toggleMethod(idx) {
-            const el = document.getElementById(`method-${idx}`);
-            el.classList.toggle('active');
+            if (!rc || !date || !auditor) {
+                alert("⚠️ Заполните все поля: Название РЦ, Дата и ФИО Аудитора");
+                return;
+            }
+
+            auditData.rc = rc;
+            auditData.date = date;
+            auditData.auditor = auditor;
+
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('audit-screen').style.display = 'flex';
+            
+            document.getElementById('display-rc').textContent = rc;
+            document.getElementById('display-auditor').textContent = auditor;
+
+            renderQuestion();
         }
 
-        function setScore(idx, val, btn) {
-            scores[idx] = val;
-            const card = document.getElementById(`card-${idx}`);
-            card.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            calculateResult();
+        function renderQuestion() {
+            const container = document.getElementById('question-container');
+            const item = data[currentQuestion];
+
+            container.innerHTML = '<div class="question-card">' +
+                '<div class="question-number">Вопрос ' + (currentQuestion + 1) + '</div>' +
+                '<div class="flow-badge">' + item.flow + '</div>' +
+                '<div class="question-text">' + item.id + '. ' + item.req + '</div>' +
+                '<div class="method-box"><b>Как проверяем:</b><br>' + item.method + '</div>' +
+                '<div class="scores">' +
+                '<div class="score-btn s2 ' + (auditData.scores[currentQuestion] === 2 ? 'active' : '') + '" onclick="setScore(2)">2</div>' +
+                '<div class="score-btn s1 ' + (auditData.scores[currentQuestion] === 1 ? 'active' : '') + '" onclick="setScore(1)">1</div>' +
+                '<div class="score-btn s0 ' + (auditData.scores[currentQuestion] === 0 ? 'active' : '') + '" onclick="setScore(0)">0</div>' +
+                '<div class="score-btn sna ' + (auditData.scores[currentQuestion] === 'Н/П' ? 'active' : '') + '" onclick="setScore(\'Н/П\')">Н/П</div>' +
+                '</div>' +
+                '<textarea rows="3" placeholder="Комментарии / Наблюдения..." oninput="saveComment(this.value)">' + (auditData.comments[currentQuestion] || '') + '</textarea>' +
+                '</div>';
+
+            document.getElementById('progress').textContent = 'Вопрос ' + (currentQuestion + 1) + ' из ' + data.length;
+
+            const navButtons = document.getElementById('nav-buttons');
+            const finalButtons = document.getElementById('final-buttons');
+            const prevBtn = navButtons.querySelector('.btn-prev');
+
+            if (currentQuestion === 0) {
+                prevBtn.style.opacity = '0.5';
+                prevBtn.disabled = true;
+            } else {
+                prevBtn.style.opacity = '1';
+                prevBtn.disabled = false;
+            }
+
+            if (currentQuestion === data.length - 1) {
+                navButtons.classList.add('hidden');
+                finalButtons.classList.remove('hidden');
+            } else {
+                navButtons.classList.remove('hidden');
+                finalButtons.classList.add('hidden');
+            }
+
+            saveToLocalStorage();
         }
 
-        function calculateResult() {
+        function setScore(score) {
+            auditData.scores[currentQuestion] = score;
+            renderQuestion();
+        }
+
+        function saveComment(comment) {
+            auditData.comments[currentQuestion] = comment;
+            saveToLocalStorage();
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < data.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            }
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('kkuks_audit_data', JSON.stringify(auditData));
+        }
+
+        function saveAudit() {
+            saveToLocalStorage();
+            alert("✅ Аудит сохранён в памяти браузера!\n\nВы можете закрыть страницу и вернуться позже — все данные сохранятся.");
+        }
+
+        function exportToExcel() {
+            const rc = auditData.rc;
+            const date = auditData.date;
+            const auditor = auditData.auditor;
+
+            let csv = '\uFEFF';
+            csv += "РЦ;Дата;Аудитор;;;\n";
+            csv += rc + ";" + date + ";" + auditor + ";;;\n\n";
+            csv += "№;Категория;Требование;Поток;Оценка;Комментарий\n";
+
+            data.forEach((item, idx) => {
+                const score = auditData.scores[idx] !== null ? auditData.scores[idx] : "";
+                const comment = (auditData.comments[idx] || "").replace(/;/g, ",");
+                csv += item.id + ";" + item.cat + ";" + item.req + ";" + item.flow + ";" + score + ";" + comment + "\n";
+            });
+
             let sum = 0, count = 0;
-            scores.forEach(s => {
+            auditData.scores.forEach(s => {
                 if (s !== null && s !== 'Н/П') {
                     sum += s;
                     count++;
                 }
             });
+            const avg = count > 0 ? (sum / count).toFixed(2) : "—";
             
-            const avgEl = document.getElementById('avg-score');
-            const verEl = document.getElementById('verdict');
-            
-            if (count === 0) {
-                avgEl.innerText = "—";
-                verEl.innerText = "Нет оценок";
-                verEl.style.color = "#8E8E93";
-                return;
-            }
+            csv += "\nИТОГОВЫЙ БАЛЛ;" + avg + "\n";
 
-            const avg = (sum / count).toFixed(2);
-            avgEl.innerText = avg;
-
-            if (avg >= 1.8) { verEl.innerText = "🟢 Отлично (Готов к ФИ)"; verEl.style.color = "#34C759"; }
-            else if (avg >= 1.5) { verEl.innerText = "🟡 Хорошо"; verEl.style.color = "#FF9500"; }
-            else if (avg >= 1.2) { verEl.innerText = " Удовл. (нужен план)"; verEl.style.color = "#FF9500"; }
-            else { verEl.innerText = "🔴 Неудовл."; verEl.style.color = "#FF3B30"; }
-        }
-
-        function exportReport() {
-            const rc = document.getElementById('rc_name').value || "Не указан";
-            const date = document.getElementById('audit_date').value || new Date().toLocaleDateString('ru-RU');
-            const auditor = document.getElementById('auditor').value || "Не указан";
-            
-            let report = `ОТЧЁТ ПО АУДИТУ ККУС\n`;
-            report += `РЦ: ${rc} | Дата: ${date} | Аудитор: ${auditor}\n`;
-            report += `ИТОГ: ${document.getElementById('avg-score').innerText} — ${document.getElementById('verdict').innerText}\n`;
-            report += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-
-            data.forEach((item, idx) => {
-                const score = scores[idx] !== null ? scores[idx] : "—";
-                const comment = document.getElementById(`comment-${idx}`).value;
-                report += `[${item.id}] ${item.req}\n`;
-                report += `Оценка: ${score} | Поток: ${item.flow}\n`;
-                if (comment) report += `💬 ${comment}\n`;
-                report += `—\n`;
-            });
-
-            navigator.clipboard.writeText(report).then(() => {
-                alert("✅ Отчёт скопирован! Вставьте в Telegram/почту.");
-            }).catch(() => {
-                const ta = document.createElement("textarea");
-                ta.value = report;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand("copy");
-                document.body.removeChild(ta);
-                alert("✅ Отчёт скопирован!");
-            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', "Аудит_ККУС_" + rc + "_" + date + ".csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
