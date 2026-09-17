@@ -3,581 +3,608 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Аудит ККУС</title>
     <style>
+        :root {
+            --lm-orange: #F7941D;
+            --lm-yellow: #FFD200;
+            --lm-black: #000000;
+            --lm-gray: #F5F5F5;
+            --lm-text-gray: #8C8C8C;
+            --lm-dark-gray: #333333;
+            --footer-height: 14.28vw; /* ~1/7 экрана */
+            --header-height: 60px;
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        :root { 
-            --orange: #F7941D;
-            --yellow: #FFD200;
-            --black: #000000;
-            --gray: #8C8C8C;
-            --light-gray: #F5F5F5;
-            --border-gray: #E0E0E0;
-        }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; 
-            background: var(--light-gray); 
-            color: var(--black); 
-            margin: 0; 
-            padding: 16px; 
-
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        h1 small { 
-
-            color: var(--gray); 
-            font-weight: 500; 
-            text-transform: none;
-            letter-spacing: 0;
-            display: block;
-            margin-top: 6px;
-        }
-        .card { 
-            background: #fff; 
-            border-radius: 12px; 
-
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border: 1px solid var(--border-gray);
-        }
-        input, textarea { 
-            width: 100%; 
-
-            background: #fff;
-            -webkit-appearance: none;
-            font-family: inherit;
-            transition: border-color 0.2s;
-        }
-        input:focus, textarea:focus { 
-            outline: none; 
-            border-color: var(--orange); 
-        }
-        input[type="date"] {
-            background: #fff;
-            color: var(--black);
-        }
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            opacity: 1;
-            cursor: pointer;
-            padding: 8px;
-        }
-        h2 { 
-
-            padding-left: 4px;
-            font-weight: 700;
-            border-left: 4px solid var(--orange);
-            padding-left: 12px;
-        }
-        .item-card { 
-            background: #fff;
-            border-radius: 10px; 
-            margin-bottom: 12px; 
-            overflow: hidden;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-            border: 1px solid var(--border-gray);
-
-        }
-        .item-header { 
-            padding: 16px; 
-            font-size: 15px; 
-            font-weight: 600;
-            line-height: 1.4;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: flex-start;
-            gap: 10px;
-        }
-        .item-header .text { flex: 1; }
-        .item-body { 
-            padding: 0 16px 16px; 
-            display: none; 
-            border-top: 1px solid var(--border-gray);
-        }
-        .item-body.active { display: block; }
-        .method-box { 
-            background: var(--light-gray); 
-
-            line-height: 1.5;
-            border-left: 3px solid var(--yellow);
-        }
-        .method-box b { color: var(--orange); }
-        .scores { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-
-            text-align: center; 
-            border: 2px solid var(--border-gray); 
-            border-radius: 8px; 
-            font-weight: 700; 
-            font-size: 16px; 
-            cursor: pointer; 
-            transition: all 0.15s;
-            background: #fff;
-            user-select: none;
-        }
-        .score-btn:active { transform: scale(0.94); }
-        .score-btn.s2.active { background: #4CAF50; color: #fff; border-color: #4CAF50; }
-        .score-btn.s1.active { background: var(--orange); color: #fff; border-color: var(--orange); }
-        .score-btn.s0.active { background: #E53935; color: #fff; border-color: #E53935; }
-        .score-btn.sna.active { background: var(--gray); color: #fff; border-color: var(--gray); }
-        .toggle-btn { 
-            background: var(--orange); 
-            color: #fff; 
-            border: none; 
-            border-radius: 6px;
-            font-size: 12px; 
-            cursor: pointer; 
-            padding: 8px 12px;
-            font-weight: 600;
-            white-space: nowrap;
-            flex-shrink: 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .badge { 
-            font-size: 10px; 
-            background: var(--yellow); 
-            color: var(--black); 
-            padding: 4px 8px; 
-            border-radius: 6px; 
-            margin-left: 8px;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 4px;
-            text-transform: uppercase;
-
-        .nav-btn:active { opacity: 0.7; }
-        .nav-btn.prev { background: var(--gray); }
-        .nav-btn.next { background: var(--orange); }
-        .footer-bar { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            right: 0; 
-            background: #fff; 
-
-            z-index: 100;
-            border-top: 2px solid var(--orange);
-        }
-        .result-row {
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--lm-gray);
+            color: var(--lm-black);
+            height: 100vh;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            overflow: hidden; /* Блокируем скролл body, скроллим только контент */
+        }
+
+        /* --- HEADER --- */
+        header {
+            height: var(--header-height);
+            background: white;
+            display: flex;
             align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            z-index: 100;
+            flex-shrink: 0;
         }
-        .result-text { 
 
-            font-weight: 700; 
-            line-height: 1.3;
-            color: var(--black);
+        .header-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--lm-black);
         }
-        .result-text small {
-            display: block;
-            font-weight: 500;
-            color: var(--gray);
 
-            border-radius: 6px;
-        }
-        .btn-row {
+        .help-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--lm-orange);
+            color: white;
+            border: none;
+            font-weight: bold;
+            font-size: 18px;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(247, 148, 29, 0.4);
+        }
 
-            font-weight: 700; 
+        /* --- MAIN CONTENT --- */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            padding: 15px;
+            padding-bottom: 20px;
+        }
+
+        /* Input Group Styles */
+        .input-group {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .input-row {
+            margin-bottom: 12px;
+        }
+        .input-row:last-child { margin-bottom: 0; }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--lm-text-gray);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #FAFAFA;
+            outline: none;
+        }
+        input:focus, select:focus {
+            border-color: var(--lm-orange);
+            background: white;
+        }
+
+        /* Audit Block Styles */
+        .audit-block {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--lm-orange);
+            display: none; /* Скрыты по умолчанию */
+            animation: fadeIn 0.3s ease;
+        }
+
+        .audit-block.active {
+            display: block;
+        }
+
+        .block-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--lm-black);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .requirement-text {
+            font-size: 16px;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            color: var(--lm-dark-gray);
+        }
+
+        .score-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .score-btn {
+            padding: 12px;
+            border: 2px solid #eee;
+            background: white;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .score-btn.selected {
+            border-color: var(--lm-orange);
+            background: #FFF8F0;
+            color: var(--lm-orange);
+        }
+        .score-btn.good { border-color: #4CAF50; background: #E8F5E9; color: #2E7D32; }
+        .score-btn.bad { border-color: #F44336; background: #FFEBEE; color: #C62828; }
+        .score-btn.na { border-color: var(--lm-text-gray); background: #f5f5f5; color: #666; }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            height: var(--footer-height);
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15px;
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: var(--lm-black);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn:active { transform: scale(0.98); }
+        .nav-btn.secondary { background: #e0e0e0; color: #333; }
 
-        }
-        .btn-export:active { opacity: 0.8; }
-        .btn-add { 
-            background: var(--orange); 
-            color: #fff;
-        }
-        .btn-download { 
-            background: var(--black); 
-            color: #fff;
-        }
-        .btn-clear {
-            background: var(--gray);
-            color: #fff;
-
-        }
-        .no-js-warning {
-            background: #E53935;
-            color: #fff;
-            padding: 16px;
-            border-radius: 10px;
-            margin: 16px 0;
-            font-size: 15px;
-            line-height: 1.5;
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
             display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
         }
-        .audit-info {
-            background: rgba(247, 148, 29, 0.08);
-            border: 1px dashed var(--orange);
-            border-radius: 8px;
+        .modal-overlay.open { display: flex; }
 
-            color: var(--black);
+        .modal {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
         }
-        .audit-info strong { color: var(--orange); }
+        .modal h3 { margin-top: 0; color: var(--lm-orange); }
+        .modal p { line-height: 1.5; color: #333; font-size: 14px; }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none; border: none;
+            font-size: 24px; cursor: pointer;
+            color: #999;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex-row { display: flex; gap: 10px; }
+        .flex-col { flex: 1; }
     </style>
 </head>
 <body>
 
-    <div class="no-js-warning" id="nojs">
-        ⚠️ JavaScript отключён или заблокирован. Откройте файл через <b>Safari</b> (не через встроенный просмотрщик), либо загрузите на любой хостинг (например, netlify.com/drop).
-    </div>
+<header>
+    <div class="header-title">Аудит ККУС</div>
+    <button class="help-btn" onclick="toggleHelp()">?</button>
+</header>
 
-    <h1>📋 Аудит ККУС<br><small>Приёмка и Размещение</small></h1>
-    
-    <div class="audit-info">
-        <strong>💡 Как работать:</strong> Заполните аудит по одному складу → нажмите «Добавить» → данные сохранятся. 
-        Можно закрыть приложение и вернуться позже. Когда все аудиты готовы → нажмите «Скачать Excel».
-    </div>
-    
-    <div class="card">
-        <input type="text" id="rc_name" placeholder="Название РЦ / Склада">
-        <input type="date" id="audit_date">
-        <input type="text" id="auditor" placeholder="ФИО Аудитора">
-    </div>
-
-    <div class="nav-buttons">
-        <button class="nav-btn prev" onclick="prevItem()">← Пред.</button>
-        <button class="nav-btn next" onclick="nextItem()">След. →</button>
-    </div>
-
-    <div id="checklist-container"></div>
-
-    <div class="footer-bar">
-        <div class="result-row">
-            <div class="result-text">
-                Итог: <span id="avg-score">—</span>
-                <small id="verdict">Нет оценок</small>
-            </div>
-            <div class="audits-count" id="audits-count">Аудитов: 0</div>
+<main id="mainContainer">
+    <!-- Стартовый экран -->
+    <div id="startScreen" class="input-group">
+        <div class="input-row">
+            <label>Название склада / РЦ</label>
+            <input type="text" id="warehouseName" placeholder="Например: Москва-Север">
         </div>
-        <div class="btn-row">
-            <button class="btn-export btn-add" onclick="addToExcel()">➕ Добавить</button>
-            <button class="btn-export btn-download" onclick="exportToExcel()">📥 Скачать Excel</button>
+        <div class="input-row">
+            <label>Дата аудита</label>
+            <input type="date" id="auditDate">
         </div>
-        <button class="btn-clear" onclick="clearCurrentAudit()">🗑 Очистить текущий</button>
+        <div class="input-row">
+            <label>ФИО Аудитора</label>
+            <input type="text" id="auditorName" placeholder="Иванов И.И.">
+        </div>
+        <div style="margin-top: 20px; text-align: center; color: #888; font-size: 13px;">
+            Заполните данные и нажмите "Далее" внизу экрана
+        </div>
     </div>
 
-    <script>
-        // Проверка работы JS
-        document.getElementById('nojs').style.display = 'none';
+    <!-- Контейнер для блоков аудита -->
+    <div id="auditBlocksContainer"></div>
+</main>
 
-        const data = [
-            { cat: "ЗОНЫ ХРАНЕНИЯ И ПИКИНГА", id: "1.1", req: "За цикл просчитаны все ячейки согласно графику ЦИ", method: "Проверить отчёт по инвентаризации. Все ли ячейки были просчитаны за последний цикл ЦИ?", flow: "СТОК" },
-            { cat: "ЗОНЫ ХРАНЕНИЯ И ПИКИНГА", id: "1.2", req: "Проведена выборочная проверка аллей на «пусто-занято»", method: "Выгрузить размещение-пополнение-перемещение за 7 дней. Удалить дубликаты, сделать ВПР с отчётом стока по местам, отсортировать по аллеям. Сформировать список 100–200 адресов для проверки. Все паллеты физически находятся по адресу в WMS.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.1", req: "Отсутствие в DOC, ZDO, OUT отменённых заказов > 24 часов", method: "Анализ отчёта «Мониторинг отгрузки». В зонах не должно быть заказов, отменённых более 24 часов назад. Отсутствие артикулов без блока и резерва.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.2", req: "Время нахождения товара в зоне RZ не превышает 6 часов", method: "Анализ отчёта D2S (дата размещения). Время нахождения в зоне RZ не должно превышать 6 часов.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.3", req: "Актуальность данных в ячейках довоза, обмена, переносов", method: "Выборочная проверка 5–7 заказов в зоне довозов и переносов. Товар должен соответствовать WMS, даты актуальны.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.4", req: "Отсутствие отменённых заказов, не разобранных > 12 часов (3ч для ДС с ДВД)", method: "Проверка отчётов WMS по отменённым заказам. Не должно быть отменённых заказов, не разобранных более 12 часов.", flow: "СТОК" },
-            { cat: "ОПЕРАЦИОННЫЕ ЗОНЫ", id: "2.5", req: "Виртуальные зоны пусты, буферные не содержат паллет > 12 часов", method: "Проверка отчёта стока по местам или WMS Stock It Easy. Не должно быть зависших паллет. В случае вынужденного размещения — информационное письмо.", flow: "Все потоки" },
-            { cat: "АНОМАЛЬНЫЕ ЗОНЫ", id: "3.1", req: "Соответствие физ. товара в аномальных зонах данным WMS и наличие актов", method: "Сверка содержимого аномальных ячеек с реестрами и актами. Физический товар должен соответствовать WMS.", flow: "СТОК ДС / Все потоки РЦ" },
-            { cat: "АНОМАЛЬНЫЕ ЗОНЫ", id: "3.2", req: "Соблюдение регламентов и сроков обработки блокировок", method: "Анализ времени нахождения товара в блокировках. Сроки обработки блокировок должны соблюдаться.", flow: "СТОК ДС / Все потоки РЦ" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS", id: "4.1", req: "Кол-во заблокированного товара идентично в WMS и RMS", method: "Сравнение выгрузок из WMS и RMS. Данные по заблокированному товару должны совпадать.", flow: "СТОК ДС / Все потоки РЦ" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS", id: "4.2", req: "Все трансферы имеют статус «Отгружен» в обеих системах", method: "Анализ отчёта по трансферам/возвратам. В статусе «Отгружен» не должно быть расхождений между WMS и RMS.", flow: "СТОК ДС / Все потоки РЦ" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS", id: "4.3", req: "В RMS отсутствует товар, заблокированный как «кража»", method: "Проверка отчёта сток RMS, сверка с Актами МП8 (по инструкции).", flow: "Импорт / СТОК РЦ" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS", id: "4.4", req: "Нет «старых утверждённых трансферов» свыше 72 часов (исходящих)", method: "Проверка по отчёту «Реестр трансферов» и «Интеграция трансферов WMS/RMS». Все утверждённые трансферы собраны и отгружены по KPI.", flow: "Все потоки" },
-            { cat: "ИНТЕГРАЦИЯ WMS-RMS", id: "4.5", req: "Процент расхождений стока WMS и RMS не превышает 0,20%", method: "Проверка по отчёту «Сверка стоков WMS-RMS».", flow: "РЦ" }
-        ];
+<footer>
+    <button id="actionBtn" class="nav-btn" onclick="handleAction()">Далее</button>
+</footer>
 
-        const container = document.getElementById('checklist-container');
-        let currentCat = "";
+<!-- Модальное окно помощи -->
+<div class="modal-overlay" id="helpModal" onclick="if(event.target === this) toggleHelp()">
+    <div class="modal">
+        <button class="close-modal" onclick="toggleHelp()">&times;</button>
+        <h3>Как работать</h3>
+        <p>1. Введите название склада, дату и ФИО на стартовом экране.</p>
+        <p>2. Нажимайте кнопку <b>"Далее"</b> внизу экрана. Она занимает 1/7 часть экрана для удобства.</p>
+        <p>3. Каждый пункт аудита открывается на весь экран. Оцените требование (Да/Нет/Н/П) и добавьте комментарий при необходимости.</p>
+        <p>4. После последнего пункта появятся кнопки <b>"Сохранить аудит"</b> и <b>"Скачать Excel"</b>.</p>
+        <p>5. Данные сохраняются в памяти телефона, даже если вы закроете браузер.</p>
+    </div>
+</div>
 
-        data.forEach((item, index) => {
-            if (item.cat !== currentCat) {
-                currentCat = item.cat;
-                container.innerHTML += `<h2>${currentCat}</h2>`;
-            }
-            container.innerHTML += `
-                <div class="item-card" id="card-${index}">
-                    <div class="item-header">
-                        <div class="text">${item.id}. ${item.req}<br><span class="badge">${item.flow}</span></div>
-                        <button class="toggle-btn" onclick="toggleMethod(${index})">Метод</button>
-                    </div>
-                    <div class="item-body" id="method-${index}">
-                        <div class="method-box"><b>Как проверяем:</b><br>${item.method}</div>
-                        <div class="scores">
-                            <div class="score-btn s2" onclick="setScore(${index}, 2, this)">2</div>
-                            <div class="score-btn s1" onclick="setScore(${index}, 1, this)">1</div>
-                            <div class="score-btn s0" onclick="setScore(${index}, 0, this)">0</div>
-                            <div class="score-btn sna" onclick="setScore(${index}, 'Н/П', this)">Н/П</div>
-                        </div>
-                        <textarea rows="2" placeholder="Комментарии..." id="comment-${index}" style="margin-top: 10px;"></textarea>
-                    </div>
+<script>
+    // --- ДАННЫЕ АУДИТА (Структура) ---
+    const auditData = [
+        {
+            id: "1.1",
+            category: "Зона Хранения пикинга",
+            requirement: "Товар размещен согласно планограмме. Отсутствуют товары не на своих местах.",
+            type: "photo"
+        },
+        {
+            id: "1.2",
+            category: "Зона Хранения пикинга",
+            requirement: "Ячейки хранения чистые, без пыли и посторонних предметов.",
+            type: "text"
+        },
+        {
+            id: "2.1",
+            category: "Зона Приемки",
+            requirement: "Документы о приемке заполнены корректно и своевременно.",
+            type: "text"
+        },
+        {
+            id: "2.2",
+            category: "Зона Приемки",
+            requirement: "Отсутствует бой товара в зоне приемки.",
+            type: "photo"
+        },
+        {
+            id: "3.1",
+            category: "Персонал",
+            requirement: "Сотрудники опрятны, форма чистая, бейджи на виду.",
+            type: "text"
+        }
+    ];
+
+    // --- СОСТОЯНИЕ ---
+    let currentStep = -1; // -1: Старт, 0..N: Блоки, N+1: Финал
+    let auditsHistory = JSON.parse(localStorage.getItem('auditsHistory')) || [];
+    let currentAuditData = {};
+
+    // --- ИНИЦИАЛИЗАЦИЯ ---
+    document.addEventListener('DOMContentLoaded', () => {
+        renderBlocks();
+        updateUI();
+        
+        // Установка сегодняшней даты
+        document.getElementById('auditDate').valueAsDate = new Date();
+    });
+
+    function renderBlocks() {
+        const container = document.getElementById('auditBlocksContainer');
+        container.innerHTML = '';
+
+        auditData.forEach((item, index) => {
+            const block = document.createElement('div');
+            block.className = 'audit-block';
+            block.id = `block-${index}`;
+            block.innerHTML = `
+                <div class="block-header">${item.category} (${item.id})</div>
+                <div class="requirement-text">${item.requirement}</div>
+                
+                <div class="score-options">
+                    <div class="score-btn good" onclick="setScore(${index}, '5')">Да</div>
+                    <div class="score-btn bad" onclick="setScore(${index}, '1')">Нет</div>
+                    <div class="score-btn na" onclick="setScore(${index}, 'NA')">Н/П</div>
                 </div>
+
+                <textarea id="comment-${index}" placeholder="Комментарий (необязательно)..." oninput="saveComment(${index}, this.value)"></textarea>
             `;
+            container.appendChild(block);
+        });
+    }
+
+    // --- ЛОГИКА НАВИГАЦИИ ---
+    function handleAction() {
+        if (currentStep === -1) {
+            // Проверка заполнения стартового экрана
+            const wh = document.getElementById('warehouseName').value;
+            const aud = document.getElementById('auditorName').value;
+            if (!wh || !aud) {
+                alert('Пожалуйста, заполните название склада и ФИО аудитора');
+                return;
+            }
+            currentStep = 0;
+        } else if (currentStep < auditData.length) {
+            // Переход к следующему блоку
+            // Можно добавить проверку, что оценка выставлена, если нужно строго
+            currentStep++;
+        } else {
+            // Мы на финальном экране, кнопка должна меняться, но логика перехода тут не нужна
+            // Кнопка меняется в updateUI
+        }
+        updateUI();
+    }
+
+    function updateUI() {
+        const startScreen = document.getElementById('startScreen');
+        const btn = document.getElementById('actionBtn');
+        const blocks = document.querySelectorAll('.audit-block');
+
+        // Скрываем все блоки сначала
+        blocks.forEach(b => b.classList.remove('active'));
+        startScreen.classList.add('hidden');
+
+        if (currentStep === -1) {
+            // Стартовый экран
+            startScreen.classList.remove('hidden');
+            btn.textContent = "Далее";
+            btn.className = "nav-btn";
+            window.scrollTo(0, 0);
+        } 
+        else if (currentStep < auditData.length) {
+            // Экран блока
+            const activeBlock = document.getElementById(`block-${currentStep}`);
+            activeBlock.classList.add('active');
+            
+            // Автоскролл к началу блока
+            setTimeout(() => {
+                activeBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+
+            btn.textContent = "След.";
+            btn.className = "nav-btn";
+            
+            // Если это последний блок, меняем текст кнопки заранее? 
+            // Нет, пусть будет "След", а на следующем шаге уже финал
+        } 
+        else {
+            // Финальный экран
+            // Показываем последний блок тоже, чтобы было видно, что закончили
+            document.getElementById(`block-${auditData.length - 1}`).classList.add('active');
+            
+            btn.className = "hidden"; // Скрываем большую кнопку "След"
+            
+            // Создаем кнопки действий, если их нет
+            let actionsDiv = document.getElementById('finalActions');
+            if (!actionsDiv) {
+                actionsDiv = document.createElement('div');
+                actionsDiv.id = 'finalActions';
+                actionsDiv.className = 'flex-row';
+                actionsDiv.style.width = '100%';
+                actionsDiv.style.height = '100%';
+                
+                const saveBtn = document.createElement('button');
+                saveBtn.className = 'nav-btn secondary';
+                saveBtn.style.flex = '1';
+                saveBtn.style.marginRight = '10px';
+                saveBtn.textContent = 'Сохранить аудит';
+                saveBtn.onclick = saveAudit;
+
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'nav-btn';
+                downloadBtn.style.flex = '1';
+                downloadBtn.style.backgroundColor = '#4CAF50'; // Зеленый для скачивания
+                downloadBtn.textContent = 'Скачать Excel';
+                downloadBtn.onclick = downloadExcel;
+
+                actionsDiv.appendChild(saveBtn);
+                actionsDiv.appendChild(downloadBtn);
+                
+                document.querySelector('footer').appendChild(actionsDiv);
+            } else {
+                actionsDiv.classList.remove('hidden');
+            }
+            
+            // Скролл вниз к последнему блоку
+             setTimeout(() => {
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 50);
+        }
+    }
+
+    // --- РАБОТА С ДАННЫМИ ---
+    function setScore(blockIndex, score) {
+        currentAuditData[`score-${blockIndex}`] = score;
+        
+        // Визуальное выделение
+        const parent = document.querySelector(`#block-${blockIndex} .score-options`);
+        Array.from(parent.children).forEach(btn => {
+            btn.classList.remove('selected', 'good', 'bad', 'na');
+            // Сброс стилей через классы сложно, проще перезаписать стиль или классы
+            // Упростим: удаляем все модификаторы
+            btn.className = 'score-btn'; 
         });
 
-        const scores = new Array(data.length).fill(null);
-        let currentItemIndex = 0;
+        const activeBtn = parent.children[score === '5' ? 0 : score === '1' ? 1 : 2];
+        activeBtn.classList.add('selected');
+        if(score === '5') activeBtn.classList.add('good');
+        if(score === '1') activeBtn.classList.add('bad');
+        if(score === 'NA') activeBtn.classList.add('na');
 
-        // Загрузка сохранённых аудитов из localStorage при старте
-        function loadAuditsFromStorage() {
-            const saved = localStorage.getItem('kkuS_audits');
-            if (saved) {
-                try {
-                    allAudits = JSON.parse(saved);
-                    updateAuditsCount();
-                } catch(e) {
-                    console.error('Ошибка загрузки сохранённых аудитов:', e);
-                }
+        // Автопереход через небольшую паузу для удобства
+        setTimeout(() => {
+            if (currentStep < auditData.length - 1) {
+                // Если не последний, можно предложить перейти дальше, но лучше ждать явного нажатия
+                // Или раскомментировать строку ниже для авто-листаания:
+                // handleAction(); 
             }
-        }
+        }, 300);
+    }
 
-        // Сохранение аудитов в localStorage
-        function saveAuditsToStorage() {
-            localStorage.setItem('kkuS_audits', JSON.stringify(allAudits));
-            updateAuditsCount();
-        }
+    function saveComment(index, text) {
+        currentAuditData[`comment-${index}`] = text;
+    }
 
-        function updateAuditsCount() {
-            document.getElementById('audits-count').innerText = `Аудитов: ${allAudits.length}`;
-        }
+    function saveAudit() {
+        const wh = document.getElementById('warehouseName').value;
+        const date = document.getElementById('auditDate').value;
+        const aud = document.getElementById('auditorName').value;
 
-        // Навигация между пунктами
-        function prevItem() {
-            if (currentItemIndex > 0) {
-                currentItemIndex--;
-                scrollToItem(currentItemIndex);
+        const auditResult = {
+            warehouse: wh,
+            date: date,
+            auditor: aud,
+            items: [],
+            timestamp: new Date().toISOString()
+        };
+
+        let totalScore = 0;
+        let count = 0;
+
+        auditData.forEach((item, idx) => {
+            const score = currentAuditData[`score-${idx}`] || 'NA';
+            const comment = currentAuditData[`comment-${idx}`] || '';
+            
+            if (score !== 'NA') {
+                totalScore += parseInt(score);
+                count++;
             }
-        }
 
-        function nextItem() {
-            if (currentItemIndex < data.length - 1) {
-                currentItemIndex++;
-                scrollToItem(currentItemIndex);
-            }
-        }
-
-        function scrollToItem(index) {
-            const card = document.getElementById(`card-${index}`);
-            if (card) {
-
-                // Раскрываем текущий пункт
-                const method = document.getElementById(`method-${index}`);
-                if (!method.classList.contains('active')) {
-                    method.classList.add('active');
-                }
-            }
-        }
-
-        function toggleMethod(idx) {
-            const el = document.getElementById(`method-${idx}`);
-            el.classList.toggle('active');
-            // Обновляем текущий индекс при ручном раскрытии
-            currentItemIndex = idx;
-        }
-
-        function setScore(idx, val, btn) {
-            scores[idx] = val;
-            const card = document.getElementById(`card-${idx}`);
-            card.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            calculateResult();
-            // Переход к следующему пункту после оценки
-            setTimeout(() => {
-                if (idx < data.length - 1) {
-                    nextItem();
-                }
-            }, 200);
-        }
-
-        function calculateResult() {
-            let sum = 0, count = 0;
-            scores.forEach(s => {
-                if (s !== null && s !== 'Н/П') {
-                    sum += s;
-                    count++;
-                }
+            auditResult.items.push({
+                id: item.id,
+                category: item.category,
+                requirement: item.requirement,
+                score: score,
+                comment: comment
             });
-            
-            const avgEl = document.getElementById('avg-score');
-            const verEl = document.getElementById('verdict');
-            
-            if (count === 0) {
-                avgEl.innerText = "—";
-                verEl.innerText = "Нет оценок";
-                verEl.style.color = "#8E8E93";
-                return;
-            }
+        });
 
-            const avg = (sum / count).toFixed(2);
-            avgEl.innerText = avg;
+        const avgScore = count > 0 ? (totalScore / count).toFixed(2) : 0;
+        auditResult.averageScore = avgScore;
+        auditResult.verdict = avgScore >= 4.5 ? 'Отлично' : (avgScore >= 3 ? 'Нормально' : 'Плохо');
 
-            if (avg >= 1.8) { verEl.innerText = "🟢 Отлично (Готов к ФИ)"; verEl.style.color = "#34C759"; }
-            else if (avg >= 1.5) { verEl.innerText = "🟡 Хорошо"; verEl.style.color = "#FF9500"; }
-            else if (avg >= 1.2) { verEl.innerText = " Удовл. (нужен план)"; verEl.style.color = "#FF9500"; }
-            else { verEl.innerText = "🔴 Неудовл."; verEl.style.color = "#FF3B30"; }
+        auditsHistory.push(auditResult);
+        localStorage.setItem('auditsHistory', JSON.stringify(auditsHistory));
+
+        alert(`Аудит сохранен!\nСклад: ${wh}\nСредний балл: ${avgScore}\nВсего аудитов в памяти: ${auditsHistory.length}`);
+        
+        // Сброс формы для нового аудита (опционально)
+        // location.reload(); 
+    }
+
+    function downloadExcel() {
+        if (auditsHistory.length === 0) {
+            alert('Нет сохраненных аудитов для экспорта.');
+            return;
         }
 
-        // Хранилище для всех аудитов (для работы с несколькими складами)
-        let allAudits = [];
+        // Формирование CSV
+        let csvContent = "\uFEFF"; // BOM для Excel
+        csvContent += "РЦ;Дата;Аудитор;Средний балл;Вердикт;ID Пункта;Категория;Требование;Оценка;Комментарий\n";
 
-        function addToExcel() {
-            const rc = document.getElementById('rc_name').value || "Не указан";
-            const date = document.getElementById('audit_date').value || new Date().toLocaleDateString('ru-RU');
-            const auditor = document.getElementById('auditor').value || "Не указан";
-            const avgScore = document.getElementById('avg-score').innerText;
-            const verdict = document.getElementById('verdict').innerText;
-            
-            // Проверяем, есть ли уже оценки
-            let hasScores = false;
-            for (let s of scores) {
-                if (s !== null && s !== 'Н/П') {
-                    hasScores = true;
-                    break;
-                }
-            }
-            
-            if (!hasScores) {
-                alert("⚠️ Сначала заполните хотя бы одну оценку!");
-                return;
-            }
-            
-            // Собираем данные аудита
-            const auditData = {
-                rc: rc,
-                date: date,
-                auditor: auditor,
-                avgScore: avgScore,
-                verdict: verdict,
-                items: []
-            };
-            
-            data.forEach((item, idx) => {
-                const score = scores[idx] !== null ? scores[idx] : "";
-                const comment = document.getElementById(`comment-${idx}`).value || "";
-                auditData.items.push({
-                    id: item.id,
-                    category: item.cat,
-                    requirement: item.req,
-                    flow: item.flow,
-                    score: score,
-                    comment: comment
-                });
+        auditsHistory.forEach(audit => {
+            audit.items.forEach(item => {
+                const row = [
+                    audit.warehouse,
+                    audit.date,
+                    audit.auditor,
+                    audit.averageScore,
+                    audit.verdict,
+                    item.id,
+                    item.category,
+                    `"${item.requirement.replace(/"/g, '""')}"`, // Экранирование кавычек
+                    item.score,
+                    `"${(item.comment || '').replace(/"/g, '""')}"`
+                ];
+                csvContent += row.join(';') + '\n';
             });
-            
-            allAudits.push(auditData);
-            
-            // Сохраняем в localStorage для персистентности
-            saveAuditsToStorage();
-            
-            alert(`✅ Аудит по РЦ "${rc}" добавлен! Всего аудитов: ${allAudits.length}\n\nТеперь вы можете:\n1. Заполнить новый аудит (очистите поля и введите данные другого склада)\n2. Нажать "Скачать Excel" для выгрузки всех аудитов\n\n💾 Данные сохранены в браузере — можно закрыть приложение и вернуться позже.`);
-            
-            // Очищаем форму для следующего аудита
-            document.getElementById('rc_name').value = "";
-            document.getElementById('auditor').value = "";
-            document.getElementById('audit_date').value = "";
-            scores.fill(null);
-            document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('textarea').forEach(t => t.value = "");
-            calculateResult();
-            currentItemIndex = 0;
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `Audits_${new Date().toISOString().slice(0,10)}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Опционально: очистить историю после скачивания
+        if(confirm('Очистить сохраненные аудиты из памяти телефона после скачивания?')) {
+            auditsHistory = [];
+            localStorage.removeItem('auditsHistory');
+            location.reload();
         }
+    }
 
-        function clearCurrentAudit() {
-            if (confirm('🗑 Очистить текущую форму аудита?\n\nЭто не удалит уже сохранённые аудиты.')) {
-                document.getElementById('rc_name').value = "";
-                document.getElementById('auditor').value = "";
-                document.getElementById('audit_date').value = "";
-                scores.fill(null);
-                document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('textarea').forEach(t => t.value = "");
-                calculateResult();
-                currentItemIndex = 0;
-            }
-        }
+    function toggleHelp() {
+        const modal = document.getElementById('helpModal');
+        modal.classList.toggle('open');
+    }
+</script>
 
-        function exportToExcel() {
-            if (allAudits.length === 0) {
-                alert("⚠️ Нет данных для экспорта! Добавьте хотя бы один аудит.");
-                return;
-            }
-            
-            // Создаём CSV контент с поддержкой кириллицы (UTF-8 с BOM)
-            let csv = '\uFEFF'; // BOM для корректного отображения кириллицы в Excel
-            
-            // Заголовки
-            csv += "РЦ;Дата;Аудитор;Средний балл;Вердикт;ID пункта;Категория;Требование;Поток;Оценка;Комментарий\n";
-            
-            // Данные по всем аудитам
-            allAudits.forEach((audit, auditIdx) => {
-                audit.items.forEach(item => {
-                    const row = [
-                        `"${audit.rc.replace(/"/g, '""')}"`,
-                        audit.date,
-                        `"${audit.auditor.replace(/"/g, '""')}"`,
-                        audit.avgScore,
-                        `"${audit.verdict.replace(/"/g, '""')}"`,
-                        item.id,
-                        `"${item.category.replace(/"/g, '""')}"`,
-                        `"${item.requirement.replace(/"/g, '""')}"`,
-                        item.flow,
-                        item.score,
-                        `"${item.comment.replace(/"/g, '""')}"`
-                    ].join(';');
-                    csv += row + '\n';
-                });
-            });
-            
-            // Создаём и скачиваем файл
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `Аудит_ККУС_${new Date().toISOString().slice(0,10)}.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Опционально: очистить после экспорта
-            if (confirm('🗑 Очистить все сохранённые аудиты после экспорта?')) {
-                allAudits = [];
-                saveAuditsToStorage();
-                alert('✅ Все аудиты очищены!');
-            }
-        }
-
-        function exportReport() {
-            const rc = document.getElementById('rc_name').value || "Не указан";
-            const date = document.getElementById('audit_date').value || new Date().toLocaleDateString('ru-RU');
-            const auditor = document.getElementById('auditor').value || "Не указан";
-            
-            let report = `ОТЧЁТ ПО АУДИТУ ККУС\n`;
-            report += `РЦ: ${rc} | Дата: ${date} | Аудитор: ${auditor}\n`;
-            report += `ИТОГ: ${document.getElementById('avg-score').innerText} — ${document.getElementById('verdict').innerText}\n`;
-            report += `━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-
-            data.forEach((item, idx) => {
-                const score = scores[idx] !== null ? scores[idx] : "—";
-                const comment = document.getElementById(`comment-${idx}`).value;
-                report += `[${item.id}] ${item.req}\n`;
-                report += `Оценка: ${score} | Поток: ${item.flow}\n`;
-                if (comment) report += `💬 ${comment}\n`;
-                report += `—\n`;
-            });
-
-            navigator.clipboard.writeText(report).then(() => {
-                alert("✅ Отчёт скопирован! Вставьте в Telegram/почту.");
-            }).catch(() => {
-                const ta = document.createElement("textarea");
-                ta.value = report;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand("copy");
-                document.body.removeChild(ta);
-                alert("✅ Отчёт скопирован!");
-            });
-        }
-
-        // Загружаем сохранённые аудиты при старте страницы
-        loadAuditsFromStorage();
-    </script>
 </body>
 </html>
